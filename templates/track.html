@@ -76,6 +76,45 @@
     .animated-result {
         animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
     }
+
+    .tracking-input-light {
+        background: rgba(255, 255, 255, 0.9) !important; 
+        border: 2px solid #ffd700 !important;
+        color: #000 !important; 
+        border-radius: 12px !important;
+        padding: 15px !important;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .tracking-input-light:focus {
+        background: #ffffff !important; 
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.4) !important;
+        transform: scale(1.02);
+    }
+
+
+    .tracking-input-light::placeholder {
+        color: rgba(0, 0, 0, 0.5) !important;
+    }
+
+    
+    .btn-delivero-bright {
+        background: #ffd700 !important;
+        color: #000 !important;
+        font-weight: 800 !important;
+        text-transform: uppercase;
+        border-radius: 12px !important;
+        padding: 14px !important;
+        border: 2px solid #ffd700 !important;
+        transition: all 0.3s ease;
+    }
+
+    .btn-delivero-bright:hover {
+        background: #000 !important;
+        color: #ffd700 !important;
+        border-color: #ffd700 !important;
+    }
 </style>
 
 <div class="container py-5">
@@ -87,14 +126,14 @@
                     <p style="color: rgba(255,255,255,0.5); font-size: 0.9rem;">შეიყვანეთ კოდი თქვენი ამანათის საპოვნელად</p>
                 </div>
 
-                <form method="POST" class="mb-2">
-                    <div class="mb-3">
-                        <input type="text" name="order_id" class="form-control tracking-input text-center" 
-                               placeholder="Order ID (მაგ: 105)" 
-                               value="{{ request.form.get('order_id', '') }}" required>
-                    </div>
-                    <button type="submit" class="btn btn-delivero w-100">ამანათის ძებნა</button>
-                </form>
+            <form method="POST" class="mb-2 p-3" style="background: rgba(255,255,255,0.05); border-radius: 20px;">
+                <div class="mb-3">
+                    <input type="text" name="order_id" class="form-control tracking-input-light text-center" 
+                           placeholder="შეიყვანეთ ID (მაგ: 105)" 
+                           value="{{ request.form.get('order_id', '') }}" required>
+                </div>
+                <button type="submit" class="btn btn-delivero-bright w-100">ამანათის ძებნა</button>
+            </form>
 
                 {% if order %}
                 <div class="mt-5 animated-result">
