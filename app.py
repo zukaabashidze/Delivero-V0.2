@@ -55,7 +55,7 @@ class Order(db.Model):
     city = db.Column(db.String(50))      
     address = db.Column(db.String(200))
     weight = db.Column(db.String(20))
-    price = db.Column(db.Float)           
+    price = db.Column(db.Float)            
     status = db.Column(db.String(20), default='მზად არის')
     courier_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -73,6 +73,42 @@ def index():
 @app.route('/about')
 def about(): 
     return render_template('about.html')
+
+# --- ახალი განაცხადის Route ---
+@app.route('/apply', methods=['GET', 'POST'])
+def apply():
+    if request.method == 'POST':
+        full_name = request.form.get('full_name')
+        id_number = request.form.get('id_number')
+        phone = request.form.get('phone')
+        city = request.form.get('city')
+
+        # მონაცემების შენახვა ბაზაში
+        # თუ მომხმარებელი შესულია, ვაბამთ მის ID-ს, თუ არა - ვინახავთ ანონიმურად (user_id=None)
+        new_app = Application(
+            name=full_name,
+            pid=id_number,
+            phone=phone,
+            location=city,
+            user_id=current_user.id if current_user.is_authenticated else None
+        )
+        db.session.add(new_app)
+        db.session.commit()
+
+        # ტელეგრამ შეტყობინება
+        msg = (f"🚴 <b>ახალი კურიერის განაცხადი! (CV)</b>\n"
+               f"───────────────\n"
+               f"👤 <b>სახელი:</b> {full_name}\n"
+               f"🆔 <b>პირადი ნომერი:</b> <code>{id_number}</code>\n"
+               f"📞 <b>ტელეფონი:</b> {phone}\n"
+               f"🏙️ <b>ქალაქი:</b> {city}\n"
+               f"───────────────")
+        send_telegram_notification(msg)
+
+        flash('თქვენი განაცხადი წარმატებით გაიგზავნა!', 'success')
+        return redirect(url_for('index'))
+    
+    return render_template('apply.html')
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
@@ -223,7 +259,7 @@ def create_order():
     msg = (f"📦 <b>ახალი შეკვეთა დაემატა!</b>\n"
            f"───────────────\n"
            f"🔢 <b>ID:</b> <code>{new_order.id}</code>\n"
-           f"🏷️ <b>ნივთი:</b> {new_order.item_name}\n"
+               f"🏷️ <b>ნივთი:</b> {new_order.item_name}\n"
            f"📍 <b>მისამართი:</b> {new_order.city}, {new_order.address}\n"
            f"🚴 <b>კურიერი:</b> {courier.username if courier else '❌'}\n"
            f"───────────────")
@@ -253,9 +289,10 @@ def approve_courier(id):
     if app_obj:
         user = db.session.get(User, app_obj.user_id)
         app_obj.status = 'დადასტურებულია'
-        user.role = 'courier'
+        if user:
+            user.role = 'courier'
         db.session.commit()
-        flash(f'{user.username} უკვე კურიერია!', 'success')
+        flash(f'კურიერი დადასტურებულია!', 'success')
     return redirect(url_for('admin'))
 
 @app.route('/logout')
