@@ -2,115 +2,163 @@
 {% block content %}
 
 <style>
-    /* მთავარი კონტეინერი */
     .apply-card {
-        background: rgba(15, 15, 15, 0.9) !important;
-        backdrop-filter: blur(15px);
+        background: linear-gradient(145deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.99)) !important;
+        backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 215, 0, 0.2);
-        border-radius: 25px;
-        box-shadow: 0 25px 50px rgba(0,0,0,0.7);
-        padding: 40px;
-        margin-top: 50px;
+        border-radius: 35px;
+        box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+        padding: 50px;
+        margin-top: 30px;
+        position: relative;
+        overflow: hidden;
     }
 
-    /* ველების დასახელებები */
+    .info-notice {
+        background: rgba(255, 215, 0, 0.05);
+        border-left: 3px solid #ffd700;
+        padding: 15px 20px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+    }
+
+    .info-notice ul {
+        margin: 0;
+        padding-left: 20px;
+        list-style-type: square;
+    }
+
+    .info-notice li {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+    }
+ 
     .form-label {
-        color: rgba(255, 215, 0, 0.9);
-        font-size: 0.75rem;
+        color: #ffd700;
+        font-size: 0.7rem;
         text-transform: uppercase;
-        letter-spacing: 1.5px;
-        margin-bottom: 8px;
-        font-weight: 700;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+        font-weight: 800;
         display: block;
+        opacity: 0.8;
     }
 
-    /* ინპუტების სტილი */
     .form-control {
-        background: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 215, 0, 0.15) !important;
+        background: rgba(255, 255, 255, 0.02) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
         color: #fff !important;
-        border-radius: 10px !important;
-        padding: 14px 18px !important;
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+        border-radius: 15px !important;
+        padding: 16px 20px !important;
+        font-size: 0.95rem;
+        transition: all 0.3s ease !important;
     }
 
     .form-control:focus {
-        background: rgba(255, 255, 255, 0.07) !important;
+        background: rgba(255, 215, 0, 0.03) !important;
         border-color: #ffd700 !important;
-        box-shadow: 0 0 20px rgba(212, 175, 55, 0.15) !important;
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.1) !important;
         outline: none;
     }
 
-    /* ღილაკის სტილი */
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.2);
+    }
+
     .btn-delivero-apply {
-        background: #ffd700 !important;
+        background: linear-gradient(45deg, #d4af37, #ffd700) !important;
         color: #000 !important;
-        font-weight: 800;
+        font-weight: 900;
         text-transform: uppercase;
-        border-radius: 12px !important;
-        padding: 16px !important;
-        letter-spacing: 2px;
+        border-radius: 15px !important;
+        padding: 18px !important;
+        letter-spacing: 3px;
         border: none;
-        transition: all 0.3s ease;
-        margin-top: 10px;
+        box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .btn-delivero-apply:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
         background: #fff !important;
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
     }
 
     .section-title {
-        color: #ffd700;
+        color: #fff;
         font-weight: 900;
-        letter-spacing: -1px;
-        margin-bottom: 10px;
+        letter-spacing: -2px;
+        font-size: 2.5rem;
+    }
+
+    .accent-gold {
+        color: #ffd700;
     }
 </style>
 
 <div class="container pb-5">
     <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-7">
+        <div class="col-lg-6">
             <div class="apply-card">
-                <div class="text-center mb-5">
-                    <h1 class="section-title">BECOME A PARTNER</h1>
-                    <p class="text-white-50 small">შეავსეთ მონაცემები კურიერის პოზიციაზე</p>
+                
+       
+                <div class="text-center mb-4">
+                    <h1 class="section-title">JOIN <span class="accent-gold">TEAM</span></h1>
+                    <p class="text-white-50">გახდი Delivero-ს პარტნიორი კურიერი</p>
+                </div>
+
+        
+                <div class="info-notice">
+                    <h6 class="text-white mb-2" style="font-size: 0.9rem;"><i class="fas fa-info-circle accent-gold me-2"></i> შევსების წესები:</h6>
+                    <ul>
+                        <li>სახელი და გვარი ჩაწერეთ მხოლოდ <b>ქართული ასოებით</b>.</li>
+                        <li>პირადი ნომერი უნდა შედგებოდეს ზუსტად <b>11 ციფრისგან</b>.</li>
+                        <li>ტელეფონის ნომერი უნდა იყოს <b>9 ნიშნა</b> (მაგ: 5XXXXXXXX).</li>
+                    </ul>
                 </div>
 
                 <form action="{{ url_for('apply') }}" method="POST">
-                    <!-- სახელი და გვარი -->
+              
                     <div class="mb-4">
-                        <label class="form-label">სახელი და გვარი</label>
-                        <input type="text" name="full_name" class="form-control" placeholder="მაგ: დავით კვირიკაშვილი" required>
-                    </div>
-
-                    <!-- პირადი ნომერი -->
-                    <div class="mb-4">
-                        <label class="form-label">პირადი ნომერი</label>
-                        <input type="number" name="id_number" class="form-control" placeholder="11 ციფრი" required>
+                        <label class="form-label">სრული სახელი (ქართულად)</label>
+                        <input type="text" name="full_name" class="form-control" 
+                               placeholder="მაგ: გიორგი ბერიძე" 
+                               pattern="^[ა-ჰა-ჰ\s]+$" title="გთხოვთ გამოიყენოთ მხოლოდ ქართული ასოები" required>
                     </div>
 
                     <div class="row">
-                        <!-- ტელეფონი -->
-                        <div class="col-md-6 mb-4">
-                            <label class="form-label">ტელეფონი</label>
-                            <input type="tel" name="phone" class="form-control" placeholder="5XX XX XX XX" required>
+                     
+                        <div class="col-md-12 mb-4">
+                            <label class="form-label">პირადი ნომერი</label>
+                            <input type="text" name="id_number" class="form-control" 
+                                   placeholder="11 ციფრი" 
+                                   minlength="11" maxlength="11" 
+                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required>
                         </div>
-                        
-                        <!-- ქალაქი -->
+
                         <div class="col-md-6 mb-4">
-                            <label class="form-label">ქალაქი</label>
+                            <label class="form-label">ტელეფონის ნომერი</label>
+                            <input type="text" name="phone" class="form-control" 
+                                   placeholder="5XXXXXXXX" 
+                                   minlength="9" maxlength="9"
+                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required>
+                        </div>
+       
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">სამუშაო ქალაქი</label>
                             <input type="text" name="city" class="form-control" placeholder="მაგ: თბილისი" required>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-delivero-apply w-100">რეგისტრაცია</button>
+                    <button type="submit" class="btn btn-delivero-apply w-100 mt-3">
+                        განაცხადის გაგზავნა
+                    </button>
                 </form>
             </div>
             
-            <p class="text-center mt-4 text-white-50" style="font-size: 0.8rem;">
-                რეგისტრაციით თქვენ ეთანხმებით Delivero-ს წესებსა და პირობებს.
+            <p class="text-center mt-4 text-white-50" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                <i class="fas fa-shield-alt me-1"></i> თქვენი მონაცემები დაცულია და არ გადაეცემა მესამე პირებს.
             </p>
         </div>
     </div>
