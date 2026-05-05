@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="premium-card p-4 shadow-lg" style="background: #000; border: 1px solid #ffd700; border-radius: 20px;">
+                <h3 class="text-center mb-4" style="color: #ffd700;">📦 შეკვეთის თრექინგი</h3>
+
+                <form method="POST">
+                    <div class="mb-3">
+                        <input type="text" id="trackingInput" name="order_id" class="form-control" 
+                               placeholder="შეიყვანეთ შეკვეთის ID (მაგ: 105)" 
+                               style="background: #111; color: #fff; border: 1px solid #ffd700;" 
+                               value="{{ request.form.get('order_id', '') }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100 fw-bold" style="background: #ffd700; color: #000;">ძებნა</button>
+                </form>
+
+                {# თუ შეკვეთა მოიძებნა #}
+                {% if order %}
+                <div class="mt-4 p-3 animated fadeIn" style="border-top: 1px solid rgba(255,215,0,0.3);">
+                    <h5 style="color: #ffd700;">შეკვეთის დეტალები:</h5>
+                    <div class="details-list" style="color: #fff;">
+                        <p><strong>ნივთი:</strong> {{ order.item_name }}</p>
+                        <p><strong>სტატუსი:</strong> 
+                            <span class="badge bg-dark border border-warning">{{ order.status }}</span>
+                        </p>
+                        <p><strong>მისამართი:</strong> {{ order.city }}, {{ order.address }}</p>
+                    </div>
+                </div>
+                {# თუ მომხმარებელმა მოძებნა და არაფერი დახვდა #}
+                {% elif error %}
+                <div class="mt-4 alert alert-danger bg-dark text-danger border-danger">
+                    შეკვეთა ამ ID-ით ვერ მოიძებნა.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .animated {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+{# JavaScript აქ აღარ გჭირდება, რადგან ფორმა POST-ით მუშაობს #}
+{% endblock %}

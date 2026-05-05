@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .admin-card {
+        background: linear-gradient(145deg, #0f0f0f, #1a1a1a) !important;
+        border-radius: 25px !important;
+        border: 1px solid rgba(212, 175, 55, 0.1) !important;
+        margin-bottom: 30px;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-4">
+            <div class="stats-card shadow">
+                <h6 style="color: #ffd700; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">ჯამური შეკვეთები</h6>
+                <h2 style="color: #fff; font-weight: bold;">{{ total_orders }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-card shadow-lg p-4">
+        <h4 class="section-title"><i class="fas fa-users me-2"></i>მომხმარებლების მართვა</h4>
+        <div class="table-responsive">
+            <table class="table custom-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>სახელი</th>
+                        <th>როლი</th>
+                        <th>მოქმედება</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in couriers + users %}
+                    <tr>
+                        <td><code>#{{ u.id }}</code></td>
+                        <td class="fw-bold">{{ u.username }}</td>
+                        <td>
+                            <span class="badge {% if u.role == 'admin' %}bg-danger{% elif u.role == 'courier' %}bg-info{% else %}bg-secondary{% endif %}">
+                                {{ u.role }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('admin_reset_password', user_id=u.id) }}" 
+                               class="btn btn-sm btn-outline-warning"
+                               onclick="return confirm('ნამდვილად გსურთ {{ u.username }}-ს პაროლის განულება?')">
+                                <i class="fas fa-key"></i> Reset Password
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="admin-card shadow-lg p-4">
+        <h4 class="section-title">შემოსული CV-ები</h4>
+    </div>
+    <div class="admin-card shadow-lg p-4">
+        <h4 class="section-title">ახალი ნივთის დამატება</h4>
+    </div>
+
+    <div class="admin-card shadow-lg p-4">
+    </div>
+</div>
+{% endblock %}

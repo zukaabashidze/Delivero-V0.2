@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .about-wrapper {
+        padding: 100px 0;
+        background: radial-gradient(circle at top left, rgba(0, 191, 255, 0.05), transparent 40%),
+                    radial-gradient(circle at bottom right, rgba(255, 204, 51, 0.05), transparent 40%);
+    }
+
+    /* Hero Section */
+    .about-hero {
+        text-align: center;
+        margin-bottom: 80px;
+    }
+
+    .about-hero h1 {
+        font-size: clamp(3rem, 8vw, 5rem);
+        font-weight: 900;
+        letter-spacing: -2px;
+        margin-bottom: 20px;
+    }
+
+    .hero-badge {
+        background: rgba(255, 204, 51, 0.1);
+        color: var(--gold);
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        border: 1px solid rgba(255, 204, 51, 0.2);
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    /* Premium Cards */
+    .info-card {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 30px;
+        padding: 40px;
+        height: 100%;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .info-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(135deg, rgba(255, 204, 51, 0.1), transparent);
+        opacity: 0;
+        transition: 0.5s;
+    }
+
+    .info-card:hover {
+        transform: translateY(-15px);
+        border-color: rgba(255, 204, 51, 0.3);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    }
+
+    .info-card:hover::before { opacity: 1; }
+
+    .icon-box {
+        width: 70px;
+        height: 70px;
+        background: rgba(255, 204, 51, 0.1);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        color: var(--gold);
+        margin-bottom: 25px;
+        transition: 0.5s;
+    }
+
+    .info-card:hover .icon-box {
+        background: var(--gold);
+        color: #000;
+        transform: rotateY(360deg);
+    }
+
+    /* Stats Section */
+    .stat-box {
+        padding: 30px;
+        border-radius: 25px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border);
+    }
+
+    .stat-number {
+        font-size: 45px;
+        font-weight: 800;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    /* Content Styling */
+    .about-text {
+        color: rgba(255, 255, 255, 0.6);
+        line-height: 1.8;
+        font-size: 16px;
+    }
+</style>
+
+<div class="about-wrapper">
+    <div class="container">
+        <!-- Hero -->
+        <div class="about-hero">
+            <span class="hero-badge">ჩვენს შესახებ</span>
+            <h1 class="text-white">DELIVERO<span class="accent-text">.GE</span></h1>
+            <p class="lead text-white-50">ჩვენ არ გადაგვაქვს მხოლოდ ამანათები, ჩვენ გადაგვაქვს ნდობა.</p>
+        </div>
+
+        <!-- Cards -->
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-4 col-md-6">
+                <div class="info-card">
+                    <div class="icon-box"><i class="fas fa-rocket"></i></div>
+                    <h3 class="text-white fw-bold mb-3">სწრაფი ლოგისტიკა</h3>
+                    <p class="about-text">გამოიყენეთ უახლესი ტექნოლოგიებით ოპტიმიზირებული მარშრუტები. ჩვენი მიზანია, თქვენი გზავნილი დანიშნულების ადგილზე წამებში აღმოჩნდეს.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="info-card">
+                    <div class="icon-box"><i class="fas fa-fingerprint"></i></div>
+                    <h3 class="text-white fw-bold mb-3">ინდივიდუალური მიდგომა</h3>
+                    <p class="about-text">ყოველი კლიენტი ჩვენთვის უნიკალურია. ჩვენ ვქმნით პერსონალიზებულ გადაწყვეტილებებს როგორც ფიზიკური პირებისთვის, ისე მსხვილი ბიზნესებისთვის.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="info-card">
+                    <div class="icon-box"><i class="fas fa-gem"></i></div>
+                    <h3 class="text-white fw-bold mb-3">პრემიუმ ხარისხი</h3>
+                    <p class="about-text">DELIVERO.GE-ს სტანდარტი გულისხმობს მაქსიმალურ უსაფრთხოებას. თქვენი ნივთი დაზღვეულია პირველივე წამიდან ჩაბარებამდე.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="row g-4 mt-5 pt-5 text-center">
+            <div class="col-6 col-lg-3">
+                <div class="stat-box">
+                    <span class="stat-number accent-text">10K+</span>
+                    <span class="text-white-50 small">გზავნილი</span>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-box">
+                    <span class="stat-number accent-text">99%</span>
+                    <span class="text-white-50 small">კმაყოფილი კლიენტი</span>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-box">
+                    <span class="stat-number accent-text">24/7</span>
+                    <span class="text-white-50 small">მხარდაჭერა</span>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-box">
+                    <span class="stat-number accent-text">50+</span>
+                    <span class="text-white-50 small">ბიზნეს პარტნიორი</span>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5 pt-5">
+            <h4 class="text-white-50 mb-4">გსურთ გახდეთ ჩვენი გუნდის წევრი?</h4>
+            <a href="{{ url_for('contact') }}" class="btn btn-register-gold px-5 py-3">შემოგვიერთდით</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .business-hero {
+        padding: 120px 0 80px;
+        text-align: center;
+        background: radial-gradient(circle at center, rgba(0, 191, 255, 0.1), transparent 70%);
+    }
+    .feature-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 30px;
+        height: 100%;
+        transition: var(--transition);
+    }
+    .feature-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--gold);
+        background: rgba(255, 255, 255, 0.05);
+    }
+    .feature-icon {
+        font-size: 40px;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, var(--gold), #fff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .business-cta {
+        margin-top: 80px;
+        padding: 50px;
+        background: linear-gradient(135deg, rgba(0, 119, 255, 0.1), rgba(255, 204, 51, 0.1));
+        border-radius: 30px;
+        border: 1px solid var(--border);
+    }
+</style>
+
+<div class="container">
+    <div class="business-hero">
+        <h1 class="display-3 fw-bold mb-4">საკურიერო მომსახურება <span class="accent-text">ბიზნესისთვის</span></h1>
+        <p class="lead text-white-50 mx-auto" style="max-width: 700px;">
+            გაამარტივეთ თქვენი მაღაზიის ან ოფისის მუშაობა. ჩვენ ვუზრუნველყოფთ სწრაფ, დაზღვეულ და სისტემურ მიწოდებას მთელი ქვეყნის მასშტაბით.
+        </p>
+    </div>
+
+    <div class="row g-4 mt-5">
+        <!-- Feature 1 -->
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-shipping-fast"></i></div>
+                <h4 class="fw-bold mb-3">სწრაფი ინტეგრაცია</h4>
+                <p class="text-white-50">დაუკავშირეთ თქვენი ონლაინ მაღაზია ჩვენს სისტემას და ავტომატურად მართეთ შეკვეთები.</p>
+            </div>
+        </div>
+        <!-- Feature 2 -->
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                <h4 class="fw-bold mb-3">სპეციალური ტარიფები</h4>
+                <p class="text-white-50">კორპორატიული კლიენტებისთვის მოქმედებს ფასდაკლების მოქნილი სისტემა გზავნილების რაოდენობაზე.</p>
+            </div>
+        </div>
+        <!-- Feature 3 -->
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                <h4 class="fw-bold mb-3">პერსონალური მენეჯერი</h4>
+                <p class="text-white-50">თქვენს ბიზნესს ეყოლება პირადი კოორდინატორი, რომელიც ნებისმიერ საკითხს მომენტალურად მოგიგვარებთ.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="business-cta text-center">
+        <h2 class="fw-bold mb-4">გსურთ გახდეთ ჩვენი პარტნიორი?</h2>
+        <p class="mb-4 text-white-50">დაგვიტოვეთ საკონტაქტო ინფორმაცია და ჩვენი გუნდი დაგიკავშირდებათ ძალიან მალე.</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="/contact" class="btn btn-register-gold px-5 py-3">დაწყება</a>
+            <a href="tel:+995558600207" class="btn btn-outline-light px-5 py-3">დაგვირეკეთ</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

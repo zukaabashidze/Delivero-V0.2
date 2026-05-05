@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="glass-card p-5 text-center">
+        <h2 class="accent-text">მოგესალმებით, {{ current_user.username }}!</h2>
+        <p class="text-light">ეს თქვენი პირადი პანელია.</p>
+        <hr class="bg-warning">
+        <a href="{{ url_for('apply') }}" class="btn btn-warning fw-bold">კურიერად გახდომა</a>
+    </div>
+</div>
+{% endblock %}
