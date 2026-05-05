@@ -45,17 +45,20 @@
     }
 
     .btn-gold {
-        background-color: #d4af37;
-        color: #000; 
-        border: none;
-        transition: all 0.3s ease;
+        background: #d4af37;
+        color: #000;
+        border-radius: 40px;
+        padding: 12px 35px;
+        font-weight: 700;
+        transition: 0.4s;
     }
-    
+
     .btn-gold:hover {
-        background-color: #b8962e !important; 
-        color: #fff !important; 
-        box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        background: #fff;
+        box-shadow: 0 0 20px #d4af37;
+        transform: scale(1.05);
     }
+
     .feature-card {
         background: rgba(255,255,255,0.02);
         border: 1px solid rgba(255,255,255,0.05);
@@ -105,7 +108,7 @@
 <section class="hero-premium text-center py-5">
     <div class="container">
         <h1 class="display-1 accent-gold mb-3" style="font-weight: 700; text-shadow: 0 0 20px rgba(212,175,55,0.3);">Delivero</h1>
-        <p class="lead mb-5" style="letter-spacing: 5px; font-weight: 300; color: rgba(255,255,255,0.8);">.SPEED. PERFECTION. PRIVACY.</p>
+        <p class="lead mb-5" style="letter-spacing: 5px; font-weight: 300; color: rgba(255,255,255,0.8);">.SPEED. PERFECTION. PRIVACY. </p>
         
         <form action="{{ url_for('track') }}" method="POST" class="glass-search d-flex mx-auto" style="max-width: 600px;">
             <input type="number" name="order_id" class="form-control" placeholder="შეიყვანეთ შეკვეთის ID (მაგ: 1)" required>
