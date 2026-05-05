@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    /* მთავარი კონტეინერი */
+    .apply-card {
+        background: rgba(15, 15, 15, 0.9) !important;
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        border-radius: 25px;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+        padding: 40px;
+        margin-top: 50px;
+    }
+
+    /* ველების დასახელებები */
+    .form-label {
+        color: rgba(255, 215, 0, 0.9);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 8px;
+        font-weight: 700;
+        display: block;
+    }
+
+    /* ინპუტების სტილი */
+    .form-control {
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(255, 215, 0, 0.15) !important;
+        color: #fff !important;
+        border-radius: 10px !important;
+        padding: 14px 18px !important;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+    }
+
+    .form-control:focus {
+        background: rgba(255, 255, 255, 0.07) !important;
+        border-color: #ffd700 !important;
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.15) !important;
+        outline: none;
+    }
+
+    /* ღილაკის სტილი */
+    .btn-delivero-apply {
+        background: #ffd700 !important;
+        color: #000 !important;
+        font-weight: 800;
+        text-transform: uppercase;
+        border-radius: 12px !important;
+        padding: 16px !important;
+        letter-spacing: 2px;
+        border: none;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+    }
+
+    .btn-delivero-apply:hover {
+        background: #fff !important;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+    }
+
+    .section-title {
+        color: #ffd700;
+        font-weight: 900;
+        letter-spacing: -1px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="container pb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+            <div class="apply-card">
+                <div class="text-center mb-5">
+                    <h1 class="section-title">BECOME A PARTNER</h1>
+                    <p class="text-white-50 small">შეავსეთ მონაცემები კურიერის პოზიციაზე</p>
+                </div>
+
+                <form action="{{ url_for('apply') }}" method="POST">
+                    <!-- სახელი და გვარი -->
+                    <div class="mb-4">
+                        <label class="form-label">სახელი და გვარი</label>
+                        <input type="text" name="full_name" class="form-control" placeholder="მაგ: დავით კვირიკაშვილი" required>
+                    </div>
+
+                    <!-- პირადი ნომერი -->
+                    <div class="mb-4">
+                        <label class="form-label">პირადი ნომერი</label>
+                        <input type="number" name="id_number" class="form-control" placeholder="11 ციფრი" required>
+                    </div>
+
+                    <div class="row">
+                        <!-- ტელეფონი -->
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">ტელეფონი</label>
+                            <input type="tel" name="phone" class="form-control" placeholder="5XX XX XX XX" required>
+                        </div>
+                        
+                        <!-- ქალაქი -->
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">ქალაქი</label>
+                            <input type="text" name="city" class="form-control" placeholder="მაგ: თბილისი" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-delivero-apply w-100">რეგისტრაცია</button>
+                </form>
+            </div>
+            
+            <p class="text-center mt-4 text-white-50" style="font-size: 0.8rem;">
+                რეგისტრაციით თქვენ ეთანხმებით Delivero-ს წესებსა და პირობებს.
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
