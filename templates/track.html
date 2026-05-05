@@ -1,37 +1,128 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="premium-card p-4 shadow-lg" style="background: #000; border: 1px solid #ffd700; border-radius: 20px;">
-                <h3 class="text-center mb-4" style="color: #ffd700;">📦 შეკვეთის თრექინგი</h3>
 
-                <form method="POST">
+<style>
+    /* პრემიუმ ფონი და ანიმაციები */
+    body {
+        background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+        min-height: 100vh;
+    }
+
+    .premium-card {
+        background: rgba(20, 20, 20, 0.8) !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 215, 0, 0.2) !important;
+        border-radius: 24px !important;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important;
+        transition: transform 0.3s ease;
+    }
+
+    .tracking-input {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 215, 0, 0.3) !important;
+        color: #fff !important;
+        border-radius: 12px !important;
+        padding: 12px 20px !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .tracking-input:focus {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-color: #ffd700 !important;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.2) !important;
+    }
+
+    .btn-delivero {
+        background: #ffd700 !important;
+        color: #000 !important;
+        border-radius: 12px !important;
+        padding: 12px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease !important;
+    }
+
+    .btn-delivero:hover {
+        background: #fff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4) !important;
+    }
+
+    .status-box {
+        background: rgba(255, 215, 0, 0.05);
+        border-left: 4px solid #ffd700;
+        border-radius: 8px;
+    }
+
+    .detail-label {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+    }
+
+    .detail-value {
+        color: #fff;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animated-result {
+        animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="premium-card p-4 p-lg-5">
+                <div class="text-center mb-4">
+                    <h2 style="color: #ffd700; font-weight: 800; letter-spacing: -1px;">TRACKING</h2>
+                    <p style="color: rgba(255,255,255,0.5); font-size: 0.9rem;">შეიყვანეთ კოდი თქვენი ამანათის საპოვნელად</p>
+                </div>
+
+                <form method="POST" class="mb-2">
                     <div class="mb-3">
-                        <input type="text" id="trackingInput" name="order_id" class="form-control" 
-                               placeholder="შეიყვანეთ შეკვეთის ID (მაგ: 105)" 
-                               style="background: #111; color: #fff; border: 1px solid #ffd700;" 
+                        <input type="text" name="order_id" class="form-control tracking-input text-center" 
+                               placeholder="Order ID (მაგ: 105)" 
                                value="{{ request.form.get('order_id', '') }}" required>
                     </div>
-                    <button type="submit" class="btn btn-warning w-100 fw-bold" style="background: #ffd700; color: #000;">ძებნა</button>
+                    <button type="submit" class="btn btn-delivero w-100">ამანათის ძებნა</button>
                 </form>
 
-                {# თუ შეკვეთა მოიძებნა #}
                 {% if order %}
-                <div class="mt-4 p-3 animated fadeIn" style="border-top: 1px solid rgba(255,215,0,0.3);">
-                    <h5 style="color: #ffd700;">შეკვეთის დეტალები:</h5>
-                    <div class="details-list" style="color: #fff;">
-                        <p><strong>ნივთი:</strong> {{ order.item_name }}</p>
-                        <p><strong>სტატუსი:</strong> 
-                            <span class="badge bg-dark border border-warning">{{ order.status }}</span>
-                        </p>
-                        <p><strong>მისამართი:</strong> {{ order.city }}, {{ order.address }}</p>
+                <div class="mt-5 animated-result">
+                    <div class="status-box p-3 mb-4">
+                        <div class="detail-label">ამჟამინდელი სტატუსი</div>
+                        <div class="detail-value" style="color: #ffd700;">● {{ order.status }}</div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-6">
+                            <div class="detail-label">ნივთი</div>
+                            <div class="detail-value">{{ order.item_name }}</div>
+                        </div>
+                        <div class="col-6 text-end">
+                            <div class="detail-label">ID ნომერი</div>
+                            <div class="detail-value">#{{ request.form.get('order_id') }}</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="detail-label">დანიშნულების ადგილი</div>
+                            <div class="detail-value">{{ order.city }}, {{ order.address }}</div>
+                        </div>
                     </div>
                 </div>
-                {# თუ მომხმარებელმა მოძებნა და არაფერი დახვდა #}
                 {% elif error %}
-                <div class="mt-4 alert alert-danger bg-dark text-danger border-danger">
-                    შეკვეთა ამ ID-ით ვერ მოიძებნა.
+                <div class="mt-4 animated-result">
+                    <div class="alert p-3 text-center" style="background: rgba(220, 53, 69, 0.1); border: 1px solid #dc3545; color: #ff4d4d; border-radius: 12px;">
+                        <i class="fas fa-exclamation-circle me-2"></i> შეკვეთა ვერ მოიძებნა
+                    </div>
                 </div>
                 {% endif %}
             </div>
@@ -39,15 +130,4 @@
     </div>
 </div>
 
-<style>
-    .animated {
-        animation: fadeIn 0.5s ease-in-out;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-</style>
-
-{# JavaScript აქ აღარ გჭირდება, რადგან ფორმა POST-ით მუშაობს #}
 {% endblock %}
