@@ -19,10 +19,26 @@
         color: rgba(255, 255, 255, 0.5) !important;
     }
 
+    /* ისრების მოცილება ნომრის ჩაწერისას */
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
+    }
+
+    .validation-text {
+        font-size: 0.85rem;
+        margin-top: 5px;
+        transition: 0.3s;
+    }
+    
+    .text-invalid { color: #ff4d4d; }
+    .text-valid { color: #2ecc71; }
+    
+    .btn-premium:disabled {
+        background: #444 !important;
+        color: #888 !important;
+        cursor: not-allowed;
     }
 </style>
 
@@ -31,26 +47,68 @@
         <h2 class="accent-text text-center fw-bold mb-4" style="color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">
             კურიერის განაცხადი
         </h2>
-        <form method="POST">
+        <form method="POST" id="applicationForm">
             <div class="mb-3">
-                <input type="text" name="name" placeholder="სრული სახელი" class="form-control" required>
+                <input type="text" name="full_name" placeholder="სრული სახელი (ქართულად)" class="form-control" required>
             </div>
+            
             <div class="mb-3">
-                <input type="text" name="pid" placeholder="პირადი ნომერი (11 ნიშნა)" class="form-control" required>
+                <input type="number" name="id_number" id="id_number" placeholder="პირადი ნომერი" class="form-control" required>
+                <div id="pid_status" class="validation-text text-invalid">❌ 11 ნიშნა პირადი ნომერი</div>
             </div>
+
             <div class="mb-3">
-                <input type="number" name="age" placeholder="ასაკი" class="form-control" required>
+                <input type="number" name="phone" id="phone" placeholder="ტელეფონის ნომერი (მაგ: 599123456)" class="form-control" required>
+                <div id="phone_status" class="validation-text text-invalid">❌ 9 ნიშნა ტელეფონის ნომერი</div>
             </div>
+
             <div class="mb-3">
-                <input type="text" name="phone" placeholder="ტელეფონის ნომერი" class="form-control" required>
+                <input type="text" name="city" placeholder="მისამართი/ქალაქი" class="form-control" required>
             </div>
-            <div class="mb-3">
-                <input type="text" name="location" placeholder="მისამართი/ქალაქი" class="form-control" required>
-            </div>
-            <button class="btn btn-premium w-100 fw-bold py-2 mt-2" style="background: linear-gradient(45deg, #ffd700, #b8860b); color: #000; border: none; border-radius: 8px;">
+
+            <button type="submit" id="submitBtn" class="btn btn-premium w-100 fw-bold py-2 mt-2" 
+                    style="background: linear-gradient(45deg, #ffd700, #b8860b); color: #000; border: none; border-radius: 8px;" disabled>
                 განაცხადის გაგზავნა
             </button>
         </form>
     </div>
 </div>
+
+<script>
+    const pidInput = document.getElementById('id_number');
+    const phoneInput = document.getElementById('phone');
+    const pidStatus = document.getElementById('pid_status');
+    const phoneStatus = document.getElementById('phone_status');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function validateForm() {
+        const isPidValid = pidInput.value.length === 11;
+        const isPhoneValid = phoneInput.value.length === 9;
+
+        if (isPidValid) {
+            pidStatus.innerHTML = "✅ 11 ნიშნა პირადი ნომერი";
+            pidStatus.classList.remove('text-invalid');
+            pidStatus.classList.add('text-valid');
+        } else {
+            pidStatus.innerHTML = "❌ 11 ნიშნა პირადი ნომერი";
+            pidStatus.classList.remove('text-valid');
+            pidStatus.classList.add('text-invalid');
+        }
+
+        if (isPhoneValid) {
+            phoneStatus.innerHTML = "✅ 9 ნიშნა ტელეფონის ნომერი";
+            phoneStatus.classList.remove('text-invalid');
+            phoneStatus.classList.add('text-valid');
+        } else {
+            phoneStatus.innerHTML = "❌ 9 ნიშნა ტელეფონის ნომერი";
+            phoneStatus.classList.remove('text-valid');
+            phoneStatus.classList.add('text-invalid');
+        }
+
+        submitBtn.disabled = !(isPidValid && isPhoneValid);
+    }
+
+    pidInput.addEventListener('input', validateForm);
+    phoneInput.addEventListener('input', validateForm);
+</script>
 {% endblock %}
