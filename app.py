@@ -308,4 +308,4 @@ if __name__ == '__main__':
     bot_thread.daemon = True
     bot_thread.start()
     
-    app.run(debug=True, use_reloader=False)
+    app.run(debug=True)
