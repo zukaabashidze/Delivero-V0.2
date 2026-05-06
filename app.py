@@ -74,17 +74,19 @@ def index():
 def about(): 
     return render_template('about.html')
 
-# --- ახალი განაცხადის Route ---
 @app.route('/apply', methods=['GET', 'POST'])
 def apply():
     if request.method == 'POST':
-        full_name = request.form.get('full_name')
-        id_number = request.form.get('id_number')
-        phone = request.form.get('phone')
-        city = request.form.get('city')
 
-        # მონაცემების შენახვა ბაზაში
-        # თუ მომხმარებელი შესულია, ვაბამთ მის ID-ს, თუ არა - ვინახავთ ანონიმურად (user_id=None)
+        full_name = request.form.get('full_name', '').strip()
+        id_number = request.form.get('id_number', '').strip()
+        phone = request.form.get('phone', '').strip()
+        city = request.form.get('city', '').strip()
+
+        if not full_name or len(id_number) != 11 or len(phone) < 9:
+            flash('გთხოვთ შეავსოთ ფორმა წესების დაცვით!', 'danger')
+            return redirect(url_for('apply'))
+
         new_app = Application(
             name=full_name,
             pid=id_number,
@@ -95,13 +97,12 @@ def apply():
         db.session.add(new_app)
         db.session.commit()
 
-        # ტელეგრამ შეტყობინება
-        msg = (f"🚴 <b>ახალი კურიერის განაცხადი! (CV)</b>\n"
+        msg = (f"🚴 <b>ახალი კურიერის განაცხადი!</b>\n"
                f"───────────────\n"
-               f"👤 <b>სახელი:</b> {full_name}\n"
-               f"🆔 <b>პირადი ნომერი:</b> <code>{id_number}</code>\n"
-               f"📞 <b>ტელეფონი:</b> {phone}\n"
-               f"🏙️ <b>ქალაქი:</b> {city}\n"
+               f"👤 <b>სახელი:</b> {full_name or '❌'}\n"
+               f"🆔 <b>პირადი ნომერი:</b> <code>{id_number or '❌'}</code>\n"
+               f"📞 <b>ტელეფონი:</b> {phone or '❌'}\n"
+               f"🏙️ <b>ქალაქი:</b> {city or '❌'}\n"
                f"───────────────")
         send_telegram_notification(msg)
 
@@ -109,7 +110,6 @@ def apply():
         return redirect(url_for('index'))
     
     return render_template('apply.html')
-
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
