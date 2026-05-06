@@ -2,108 +2,37 @@
 {% block content %}
 
 <style>
-    .auth-container {
-        min-height: 80vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .auth-card {
-        background: rgba(10, 10, 10, 0.85) !important;
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 215, 0, 0.15) !important;
-        border-radius: 30px !important;
-        padding: 50px 40px;
-        box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
-        max-width: 420px;
-        width: 100%;
-    }
-
-    .auth-title {
-        color: #fff;
-        font-weight: 900;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        font-size: 1.8rem;
-    }
-
-    .auth-input-group {
-        position: relative;
-        margin-bottom: 20px;
-    }
-
-    .auth-input-group i.input-icon {
-        position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #ffd700;
-        opacity: 0.7;
-        z-index: 10;
-    }
-
+    .auth-container { min-height: 80vh; display: flex; align-items: center; justify-content: center; }
+    .auth-card { background: rgba(10, 10, 10, 0.9) !important; backdrop-filter: blur(20px); border: 1px solid rgba(255, 215, 0, 0.2) !important; border-radius: 30px !important; padding: 50px 40px; box-shadow: 0 0 40px rgba(0, 0, 0, 0.8); max-width: 420px; width: 100%; }
+    .auth-title { color: #fff; font-weight: 900; text-transform: uppercase; font-size: 1.8rem; text-align: center; margin-bottom: 20px; }
+    
     .auth-control {
-        background: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 215, 0, 0.1) !important;
-        color: #fff !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 215, 0, 0.2) !important;
+        color: #ffffff !important; /* ტექსტის ფერი */
         border-radius: 12px !important;
-        padding: 14px 45px !important; 
-        transition: all 0.3s ease !important;
-    }
-
-    .auth-control:focus {
-        border-color: #ffd700 !important;
-        box-shadow: 0 0 15px rgba(212, 175, 55, 0.1) !important;
-    }
-
-    .password-toggle {
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-        color: rgba(255, 255, 255, 0.3);
-        transition: 0.3s;
-        z-index: 10;
-    }
-
-    .password-toggle:hover {
-        color: #ffd700;
-    }
-
-    .btn-auth {
-        background: #ffd700 !important;
-        color: #000 !important;
-        font-weight: 800 !important;
-        text-transform: uppercase;
-        border-radius: 12px !important;
-        padding: 15px !important;
-        letter-spacing: 2px;
-        border: none !important;
+        padding: 14px 45px !important;
         transition: 0.3s !important;
     }
 
-    .btn-auth:hover {
-        background: #fff !important;
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2) !important;
+    .auth-control::placeholder {
+        color: rgba(255, 255, 255, 0.5) !important;
     }
+
+    .auth-input-group { position: relative; margin-bottom: 20px; }
+    .auth-input-group i.input-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #ffd700; z-index: 10; }
+    .password-toggle { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #ffd700; z-index: 10; }
+    .btn-auth { background: #ffd700 !important; color: #000 !important; font-weight: 800 !important; border-radius: 12px !important; padding: 15px !important; border: none !important; width: 100%; }
 </style>
 
 <div class="auth-container">
     <div class="auth-card">
-        <div class="text-center mb-4">
-            <h1 class="auth-title">CREATE <span style="color: #ffd700;">ACCOUNT</span></h1>
-            <p class="text-white-50 small">შემოუერთდი Delivero-ს სამყაროს</p>
-        </div>
-
+        <h1 class="auth-title">CREATE <span style="color: #ffd700;">ACCOUNT</span></h1>
         <form method="POST">
             <div class="auth-input-group">
                 <i class="fas fa-user input-icon"></i>
                 <input type="text" name="username" class="form-control auth-control" placeholder="მომხმარებლის სახელი" required>
             </div>
-
             <div class="auth-input-group">
                 <i class="fas fa-lock input-icon"></i>
                 <input type="password" id="password" name="password" class="form-control auth-control" placeholder="პაროლი" required>
@@ -111,14 +40,10 @@
                     <i id="toggleIcon" class="fas fa-eye"></i>
                 </span>
             </div>
-
-            <button type="submit" class="btn btn-auth w-100 mt-2">რეგისტრაცია</button>
+            <button type="submit" class="btn btn-auth">რეგისტრაცია</button>
         </form>
-
         <div class="text-center mt-4">
-            <p class="small text-white-50">
-                უკვე გაქვს პროფილი? <a href="/login" style="color: #ffd700; text-decoration: none; font-weight: 600;">შესვლა</a>
-            </p>
+            <p class="small text-white-50">უკვე გაქვს პროფილი? <a href="/login" style="color: #ffd700; text-decoration: none; font-weight: 600;">შესვლა</a></p>
         </div>
     </div>
 </div>
@@ -127,17 +52,13 @@
 function togglePassword() {
     const passInput = document.getElementById("password");
     const icon = document.getElementById("toggleIcon");
-    
     if (passInput.type === "password") {
         passInput.type = "text";
-        icon.classList.remove("fa-eye");
-        icon.classList.add("fa-eye-slash");
+        icon.classList.replace("fa-eye", "fa-eye-slash");
     } else {
         passInput.type = "password";
-        icon.classList.remove("fa-eye-slash");
-        icon.classList.add("fa-eye");
+        icon.classList.replace("fa-eye-slash", "fa-eye");
     }
 }
 </script>
-
 {% endblock %}
