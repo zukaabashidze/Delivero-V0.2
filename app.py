@@ -200,13 +200,15 @@ def forgot_password():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    if current_user.role == 'admin' or current_user.username == 'zuka abashidze':
+    # პრიორიტეტი მიანიჭე შენს იუზერნეიმს
+    if current_user.username == 'zuka abashidze' or current_user.role == 'admin':
         return redirect(url_for('admin'))
+    
     if current_user.role == 'courier':
         orders = Order.query.filter_by(courier_id=current_user.id).all()
         return render_template('courier_dashboard.html', orders=orders)
+        
     return render_template('user_dashboard.html')
-
 @app.route('/privacy-policy')
 def privacy():
     return render_template('privacy.html')
@@ -220,7 +222,8 @@ def business():
 @app.route('/admin')
 @login_required
 def admin():
-    if current_user.role != 'admin' and current_user.username != 'zuka abashidze': 
+    # სისტემა ყოველთვის შეგიშვებს, თუ იუზერნეიმი არის 'zuka abashidze'
+    if current_user.username != 'zuka abashidze' and current_user.role != 'admin':
         return redirect(url_for('dashboard'))
     
     apps = Application.query.all()
@@ -234,7 +237,6 @@ def admin():
                            users=users,  
                            orders=orders, 
                            total_orders=len(orders))
-
 @app.route('/create_order', methods=['POST'])
 @login_required
 def create_order():
