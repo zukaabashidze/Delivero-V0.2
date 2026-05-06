@@ -39,160 +39,120 @@ body{
 ::-webkit-scrollbar-thumb{background:linear-gradient(var(--gold),var(--blue)); border-radius:30px;}
 
 .custom-navbar{
-    background:rgba(5,8,18,0.72);
+    background:rgba(5,8,18,0.85);
     backdrop-filter:blur(18px);
     border-bottom:1px solid rgba(255,255,255,0.06);
-    padding:18px 0;
+    padding:15px 0;
     transition:var(--transition);
     box-shadow:0 10px 40px rgba(0,0,0,0.35);
 }
-.navbar-brand{font-size:32px; font-weight:900; letter-spacing:2px; transition:var(--transition);}
-.navbar-brand:hover{transform:scale(1.04);}
+.navbar-brand{font-size:28px; font-weight:900; letter-spacing:2px; transition:var(--transition);}
 .accent-text{
     background:linear-gradient(135deg, var(--gold), #fff0a6);
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
     text-shadow:0 0 25px rgba(255,204,51,0.35);
 }
+
+/* მობილური მენიუს გასწორება */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background: rgba(10, 16, 32, 0.98);
+        margin-top: 15px;
+        border-radius: 20px;
+        padding: 20px;
+        border: 1px solid rgba(255, 215, 0, 0.1);
+    }
+    .nav-link-custom { margin: 10px 0 !important; }
+    .auth-buttons-mobile { 
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        margin-top: 15px;
+    }
+    .auth-buttons-mobile .btn { width: 100%; margin: 0 !important; }
+}
+
 .nav-link-custom{
     color:rgba(255,255,255,0.7)!important;
-    margin:0 15px;
+    margin:0 12px;
     font-weight:600;
     position:relative;
     transition:var(--transition);
 }
-.nav-link-custom::after{
-    content:'';
-    position:absolute;
-    left:0;
-    bottom:-6px;
-    width:0%;
-    height:2px;
-    background:linear-gradient(90deg, var(--gold), var(--blue));
-    border-radius:30px;
-    transition:var(--transition);
-}
-.nav-link-custom:hover::after{width:100%;}
 .nav-link-custom:hover{color:white!important;}
 
 .btn-register-gold{
     background:linear-gradient(135deg, #ffcc33, #ff9900);
     color:#111!important;
     border:none!important;
-    border-radius:15px!important;
+    border-radius:12px!important;
     font-weight:800!important;
-    padding:11px 28px!important;
+    padding:10px 24px!important;
     transition:var(--transition)!important;
-    box-shadow:0 10px 30px rgba(255,204,51,0.3);
-    font-weight: 700;
-    text-shadow: 0 0 20px rgba(212,175,55,0.3);
 }
-.btn-register-gold:hover{transform:translateY(-4px); box-shadow:0 18px 40px rgba(255,204,51,0.5);}
 .btn-premium{
     background:linear-gradient(135deg, #00bfff, #0077ff);
     border:none!important;
     color:white!important;
-    border-radius:15px!important;
+    border-radius:12px!important;
     font-weight:700!important;
-    padding:11px 28px!important;
-    transition:var(--transition)!important;
-    box-shadow:0 10px 30px rgba(0,123,255,0.3);
+    padding:10px 24px!important;
 }
-.btn-premium:hover{transform:translateY(-4px); box-shadow:0 18px 40px rgba(0,123,255,0.5); filter:brightness(1.1);}
-.btn-outline-light{
-    border:1px solid rgba(255,255,255,0.15)!important;
-    border-radius:15px!important;
-    background:rgba(255,255,255,0.03)!important;
-    backdrop-filter:blur(10px);
-    transition:var(--transition);
-}
-.btn-outline-light:hover{background:white!important; color:black!important; transform:translateY(-3px);}
 
 .notification-container {
     position: fixed;
-    top: 100px;
+    top: 90px;
     right: 20px;
     z-index: 9999;
-    width: 350px;
+    width: 320px;
 }
-
-.alert {
-    padding: 18px !important;
-    margin-bottom: 15px !important;
-    border-radius: 18px !important;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    color: white !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    animation: slideIn 0.4s ease-out;
-}
-
-.alert-success { border-left: 4px solid #22c55e !important; }
-.alert-danger { border-left: 4px solid #ef4444 !important; }
-
-@keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+@media (max-width: 576px) {
+    .notification-container { width: 90%; right: 5%; }
 }
 
 footer {
-    margin-top: 120px;
+    margin-top: 100px;
     background: rgba(4, 8, 18, 0.95);
-    backdrop-filter: blur(20px);
+    padding: 60px 0 30px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 80px 0 30px;
-    position: relative;
-    overflow: hidden;
 }
-.footer-brand { font-size: 28px; font-weight: 900; margin-bottom: 20px; display: inline-block; }
-.social-links { display: flex; gap: 15px; margin-top: 25px; }
-.social-icon {
-    width: 45px; height: 45px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    color: white; text-decoration: none; transition: var(--transition);
-}
-.social-icon:hover { background: var(--gold); color: #111; transform: translateY(-5px); }
-.footer-section-title { font-size: 18px; font-weight: 700; margin-bottom: 25px; position: relative; padding-bottom: 10px; }
-.footer-section-title::after { content: ''; position: absolute; left: 0; bottom: 0; width: 30px; height: 2px; background: var(--gold); }
-.footer-link { color:#cbd5e1; text-decoration:none; display:block; margin-top:10px; transition:var(--transition); }
-.footer-link:hover { color:var(--gold); transform:translateX(5px); }
-.contact-item { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; color: #94a3b8; }
-.contact-item i { color: var(--gold); }
-.footer-bottom { margin-top: 60px; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.05); text-align: center; }
 </style>
 </head>
 <body>
+
 <nav class="navbar navbar-expand-lg navbar-dark custom-navbar sticky-top">
     <div class="container">
         <a class="navbar-brand text-white" href="/">DELIVERO<span class="accent-text">.GE</span></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
-            <div class="ms-auto d-flex align-items-center">
-                <a class="nav-link nav-link-custom" href="/">მთავარი</a>
-                <a class="nav-link nav-link-custom" href="/about">ჩვენს შესახებ</a>
-                <a class="nav-link nav-link-custom" href="/track">ტრეკინგი</a>
-                <a class="nav-link nav-link-custom" href="/contact">კონტაქტი</a>
-                <a class="nav-link nav-link-custom" href="/apply">ვაკანსია</a>
-                <div class="ms-lg-4 mt-3 mt-lg-0 d-flex align-items-center">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="/">მთავარი</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="/about">ჩვენს შესახებ</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="/track">ტრეკინგი</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="/contact">კონტაქტი</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="/apply">ვაკანსია</a></li>
+
+                <li class="nav-item ms-lg-3 auth-buttons-mobile d-flex">
                     {% if current_user.is_authenticated %}
-                        <div class="me-3 d-none d-md-block text-end">
-                            <small class="text-white-50">ავტორიზებული</small>
-                            <div class="accent-text fw-bold">{{ current_user.username }}</div>
+                        <div class="d-flex align-items-center me-lg-3 mb-3 mb-lg-0 order-first order-lg-0">
+                             <div class="text-lg-end">
+                                <small class="text-white-50 d-block d-lg-inline me-lg-2 small">ავტორიზებული:</small>
+                                <span class="accent-text fw-bold">{{ current_user.username }}</span>
+                             </div>
                         </div>
-                        <a href="/dashboard" class="btn btn-premium btn-sm px-4">პანელი</a>
-                        <a href="/logout" class="btn btn-outline-light btn-sm ms-2">გასვლა</a>
+                        <a href="/dashboard" class="btn btn-premium btn-sm px-4 ms-lg-2 mb-2 mb-lg-0">პანელი</a>
+                        <a href="/logout" class="btn btn-outline-light btn-sm ms-lg-2">გასვლა</a>
                     {% else %}
-                        <a href="/register" class="btn btn-register-gold btn-sm me-2 px-4" style="font-weight: 700; text-shadow: 0 0 20px rgba(212,175,55,0.3)">რეგისტრაცია</a>
-                        <a href="/login" class="btn btn-register-gold btn-sm me-2 px-4" style="font-weight: 700; text-shadow: 0 0 20px rgba(212,175,55,0.3)">შესვლა</a>
+                        <a href="/register" class="btn btn-register-gold btn-sm px-4 mb-2 mb-lg-0 me-lg-2">რეგისტრაცია</a>
+                        <a href="/login" class="btn btn-register-gold btn-sm px-4">შესვლა</a>
                     {% endif %}
-                </div>
-            </div>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
@@ -206,35 +166,25 @@ footer {
                 {% if category == 'success' %}<i class="fas fa-check-circle me-2"></i>
                 {% elif category == 'danger' %}<i class="fas fa-exclamation-triangle me-2"></i>
                 {% else %}<i class="fas fa-info-circle me-2"></i>{% endif %}
-                <div>{{ message }}</div>
+                <div style="font-size: 0.9rem;">{{ message }}</div>
             </div>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
           </div>
         {% endfor %}
       {% endif %}
     {% endwith %}
 </div>
-<div class="container mt-3">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }} bg-dark text-warning border-warning alert-dismissible fade show" role="alert" style="border-radius: 15px;">
-            {{ message }}
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-</div>
-    
-{% block content %}{% endblock %}
+
+<main>
+    {% block content %}{% endblock %}
+</main>
 
 <footer>
-    <div class="container position-relative" style="z-index: 1;">
+    <div class="container">
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
                 <a href="/" class="footer-brand text-white text-decoration-none">DELIVERO<span class="accent-text">.GE</span></a>
-                <p class="text-white-50 pe-lg-5">პროფესიონალური და უსაფრთხო საკურიერო სერვისი მთელი საქართველოს მასშტაბით.</p>
+                <p class="text-white-50 pe-lg-5 small">პროფესიონალური და უსაფრთხო საკურიერო სერვისი მთელი საქართველოს მასშტაბით.</p>
                 <div class="social-links">
                     <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
@@ -247,15 +197,15 @@ footer {
                 <a href="/track" class="footer-link">ტრეკინგი</a>
                 <a href="/contact" class="footer-link">კონტაქტი</a>
             </div>
-            <div class="col-lg-2 col-md-6">
+            <div class="col-lg-3 col-md-6">
                 <h4 class="footer-section-title">სერვისები</h4>
                 <a href="/business" class="footer-link">ბიზნესისთვის</a>
-                <a href="{{ url_for('privacy') }}" class="footer-link">კონფიდენციალურობის პოლიტიკა</a>
+                <a href="{{ url_for('privacy') }}" class="footer-link">კონფიდენციალურობა</a>
             </div>
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-3 col-md-6">
                 <h4 class="footer-section-title">კონტაქტი</h4>
-                <div class="contact-item"><i class="fas fa-envelope"></i><span>support@delivero.ge</span></div>
-                <div class="contact-item"><i class="fas fa-phone-alt"></i><span>+995 558 600 207 </span></div>
+                <div class="contact-item"><i class="fas fa-envelope"></i><span class="small">support@delivero.ge</span></div>
+                <div class="contact-item"><i class="fas fa-phone-alt"></i><span class="small">+995 558 600 207</span></div>
             </div>
         </div>
         <div class="footer-bottom">
