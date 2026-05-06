@@ -7,9 +7,20 @@
         border: 1px solid rgba(212, 175, 55, 0.1) !important;
         margin-bottom: 30px;
     }
+    .form-control {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(212, 175, 55, 0.2) !important;
+        color: white !important;
+        border-radius: 10px;
+    }
+    .form-control:focus {
+        border-color: #ffd700 !important;
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    }
 </style>
 
 <div class="container mt-4">
+    <!-- სტატისტიკა -->
     <div class="row justify-content-center mb-4">
         <div class="col-md-4">
             <div class="stats-card shadow">
@@ -19,6 +30,7 @@
         </div>
     </div>
 
+    <!-- მომხმარებლების მართვა -->
     <div class="admin-card shadow-lg p-4">
         <h4 class="section-title"><i class="fas fa-users me-2"></i>მომხმარებლების მართვა</h4>
         <div class="table-responsive">
@@ -55,14 +67,66 @@
         </div>
     </div>
 
+    <!-- შემოსული CV-ები -->
     <div class="admin-card shadow-lg p-4">
-        <h4 class="section-title">შემოსული CV-ები</h4>
-    </div>
-    <div class="admin-card shadow-lg p-4">
-        <h4 class="section-title">ახალი ნივთის დამატება</h4>
+        <h4 class="section-title"><i class="fas fa-file-pdf me-2"></i>შემოსული CV-ები</h4>
+        <div class="table-responsive">
+            <table class="table custom-table text-white">
+                <thead>
+                    <tr>
+                        <th>სახელი</th>
+                        <th>თარიღი</th>
+                        <th>ფაილი</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cv in cvs %}
+                    <tr>
+                        <td>{{ cv.applicant_name }}</td>
+                        <td>{{ cv.date_submitted }}</td>
+                        <td>
+                            <a href="{{ url_for('view_cv', cv_id=cv.id) }}" class="btn btn-sm btn-warning">ნახვა</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3" class="text-center text-muted">CV-ები ჯერ არ არის შემოსული</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
+    <!-- ახალი ნივთის დამატება (ამანათის შეყვანა) -->
     <div class="admin-card shadow-lg p-4">
+        <h4 class="section-title"><i class="fas fa-box-open me-2"></i>ახალი ნივთის (ამანათის) დამატება</h4>
+        <form action="{{ url_for('add_package') }}" method="POST">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="text-white-50">მომხმარებლის სახელი ან ID</label>
+                    <input type="text" name="user_identifier" class="form-control" placeholder="მაგ: #123 ან giorgi123" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="text-white-50">თრექინგ კოდი</label>
+                    <input type="text" name="tracking_code" class="form-control" placeholder="მაგ: XYZ987654" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="text-white-50">წონა (კგ)</label>
+                    <input type="number" step="0.01" name="weight" class="form-control" placeholder="0.00">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="text-white-50">სტატუსი</label>
+                    <select name="status" class="form-control">
+                        <option value="საწყობშია">საწყობშია</option>
+                        <option value="გზაშია">გზაშია</option>
+                        <option value="ჩამოვიდა">ჩამოვიდა</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-warning w-100 mt-2">მონაცემების შენახვა</button>
+        </form>
     </div>
+
 </div>
 {% endblock %}
