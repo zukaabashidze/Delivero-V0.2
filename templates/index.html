@@ -3,7 +3,6 @@
 
 <style>
     body { background-color: #050505; color: #fff; }
-
     .hero-premium {
         height: 80vh;
         background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
@@ -15,7 +14,6 @@
         justify-content: center;
         border-bottom: 1px solid rgba(212, 175, 55, 0.2);
     }
-
     .accent-gold {
         background: linear-gradient(135deg, #d4af37 0%, #f1e0a9 50%, #d4af37 100%);
         -webkit-background-clip: text;
@@ -23,7 +21,6 @@
         font-weight: 800;
         text-transform: uppercase;
     }
-
     .glass-search {
         background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(15px);
@@ -36,14 +33,6 @@
         margin: 0 auto;
         box-shadow: 0 0 30px rgba(214, 175, 55, 0.15);
     }
-
-    .glass-search input {
-        background: transparent !important;
-        border: none !important;
-        color: white !important;
-        padding-left: 25px;
-    }
-
     .btn-gold {
         background: #d4af37;
         color: #000;
@@ -52,13 +41,6 @@
         font-weight: 700;
         transition: 0.4s;
     }
-
-    .btn-gold:hover {
-        background: #fff;
-        box-shadow: 0 0 20px #d4af37;
-        transform: scale(1.05);
-    }
-
     .feature-card {
         background: rgba(255,255,255,0.02);
         border: 1px solid rgba(255,255,255,0.05);
@@ -67,56 +49,19 @@
         transition: 0.4s;
         height: 100%;
     }
-
-    .feature-card:hover {
-        background: rgba(212, 175, 55, 0.05);
-        border-color: #d4af37;
-        transform: translateY(-10px);
-    }
-
-    .stat-number {
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: #d4af37;
-        display: block;
-    }
-
-    .glass-search .form-control::placeholder {
-        color: rgba(255, 255, 255, 0.6) !important;
-        font-weight: 300;
-    }
-
-    .glass-search .form-control {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(212, 175, 55, 0.3);
-        color: white;
-    }
-
-
-    @media (max-width: 768px) {
-        .glass-search {
-            flex-direction: column;
-            gap: 15px;
-        }
-        .glass-search .btn {
-            width: 100%;
-        }
-    }
 </style>
-
 
 <section class="hero-premium text-center py-5">
     <div class="container">
-        <h1 class="display-1 accent-gold mb-3" style="font-weight: 700; text-shadow: 0 0 20px rgba(212,175,55,0.3);">Delivero</h1>
-        <p class="lead mb-5" style="letter-spacing: 5px; font-weight: 300; color: rgba(255,255,255,0.8);">.SPEED. PERFECTION. PRIVACY. </p>
+        <h1 class="display-1 accent-gold mb-3">Delivero</h1>
+        <p class="lead mb-5" style="letter-spacing: 5px; font-weight: 300; color: rgba(255,255,255,0.8);">SPEED. PRIVACY. PERFECTION.</p>
         
-        <form action="{{ url_for('track') }}" method="POST" class="glass-search d-flex mx-auto" style="max-width: 600px;">
-            <input type="number" name="order_id" class="form-control" placeholder="შეიყვანეთ შეკვეთის ID (მაგ: 1)" required>
+        <form action="{{ url_for('track') }}" method="POST" class="glass-search d-flex mx-auto">
+            <input type="number" name="order_id" class="form-control" style="background: transparent; border: none; color: white; padding-left: 25px;" placeholder="შეიყვანეთ შეკვეთის ID" required>
             <button type="submit" class="btn btn-gold px-4">TRACK</button>
         </form>
     </div>
 </section>
-
 
 <section class="py-5 mt-5">
     <div class="container text-center">
@@ -126,73 +71,25 @@
                 <div class="feature-card">
                     <img src="https://cdn-icons-png.flaticon.com/512/2951/2951136.png" width="60" class="mb-4" style="filter: invert(1);">
                     <h4>ელვისებური სისწრაფე</h4>
-                    <p class="text-white-50">თბილისის მასშტაბით ჩაბარება შეკვეთის აღებიდან იმავე დღეს. ჩვენი კურიერები არ აგვიანებენ.</p>
+                    <p class="text-white-50">ჩაბარება შეკვეთის აღებიდან იმავე დღეს.</p>
                 </div>
             </div>
-
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <img src="https://cdn-icons-png.flaticon.com/128/2438/2438078.png" width="60" class="mb-4" style="filter: invert(1);">
+                    <h4>სრული დაცვა</h4>
+                    <p class="text-white-50">თქვენი მონაცემები და ნივთი დაცულია.</p>
+                </div>
+            </div>
             <div class="col-md-4">
                 <div class="feature-card">
                     <img src="https://cdn-icons-png.flaticon.com/512/3141/3141133.png" width="60" class="mb-4" style="filter: invert(1);">
                     <h4>24/7 მხარდაჭერა</h4>
-                    <p class="text-white-50">ტელეგრამ ბოტი და ცხელი ხაზი მუდმივად თქვენთს სამსახურშია .</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <img src="https://cdn-icons-png.flaticon.com/128/2438/2438078.png" title="shield icons"width="60" class="mb-4" style="filter: invert(1);">
-                    <h4>სრული დაცვა</h4>
-                    <p class="text-white-50">თქვენი მონაცემები და ნივთი დაცულია. ჩვენ ვუფრთხილდებით თითოეულ ამანათს როგორც საკუთარს.</p>
+                    <p class="text-white-50">ჩვენი გუნდი მუდმივად თქვენს სამსახურშია.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-<section class="py-5" style="background: rgba(212, 175, 55, 0.02);">
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-md-3">
-                <span class="stat-number">15K+</span>
-                <p class="tariff-label">ჩაბარებული გზავნილი</p>
-            </div>
-            <div class="col-md-3">
-                <span class="stat-number">50+</span>
-                <p class="tariff-label">პროფესიონალი კურიერი</p>
-            </div>
-            <div class="col-md-3">
-                <span class="stat-number">99%</span>
-                <p class="tariff-label">კმაყოფილი კლიენტი</p>
-            </div>
-            <div class="col-md-3">
-                <span class="stat-number">24/7</span>
-                <p class="tariff-label">სამუშაო გრაფიკი</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="py-5 mb-5">
-    <div class="container">
-        <div class="feature-card p-4 p-md-5 d-flex flex-column flex-md-row align-items-center justify-content-between text-center text-md-start" 
-             style="background: linear-gradient(90deg, rgba(212,175,55,0.1), transparent); border: 1px solid rgba(212,175,55,0.2); border-radius: 15px;">
-            <div class="mb-4 mb-md-0">
-                <h2 class="accent-gold mb-2">გსურს გახდე ჩვენი გუნდის წევრი?</h2>
-                <p class="text-white-50 mb-0">შემოიტანე განაცხადი კურიერის პოზიციაზე და დაიწყე მუშაობა დღესვე.</p>
-            </div>
-            <a href="{{ url_for('register') }}" class="btn btn-gold px-5 py-3">შემოუერთდი</a>
-        </div>
-    </div>
-</section>
-
-<script>
-    document.querySelector('.btn-gold').addEventListener('click', function() {
-        let id = document.querySelector('input').value;
-        if(id) {
-            alert('თქვენ ეძებთ ამანათს ID-ით: ' + id);
-        } else {
-            alert('გთხოვთ შეიყვანოთ ID');
-        }
-    });
-</script>
 
 {% endblock %}
