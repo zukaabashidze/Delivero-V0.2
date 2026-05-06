@@ -172,10 +172,17 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        user = User.query.filter_by(username=request.form.get('username').lower().strip()).first()
-        if user and check_password_hash(user.password, request.form.get('password')):
+        username = request.form.get('username').lower().strip()
+        password = request.form.get('password')
+        
+        user = User.query.filter_by(username=username).first()
+        
+        if user and check_password_hash(user.password, password):
             login_user(user)
+            if user.username == 'zuka abashidze' or user.role == 'admin':
+                return redirect(url_for('admin'))
             return redirect(url_for('dashboard'))
+            
         flash('არასწორი მონაცემები!', 'danger')
     return render_template('login.html')
 
