@@ -2,7 +2,6 @@
 {% block content %}
 
 <style>
-    /* ავტორიზაციის ბარათის სტილი */
     .login-container {
         min-height: 80vh;
         display: flex;
@@ -42,7 +41,6 @@
         margin-bottom: 35px;
     }
 
-    /* ინპუტების სტილი */
     .auth-input-group {
         position: relative;
         margin-bottom: 25px;
@@ -56,16 +54,21 @@
         color: #ffd700;
         font-size: 0.9rem;
         opacity: 0.7;
+        z-index: 10;
     }
 
     .auth-control {
         background: rgba(255, 255, 255, 0.03) !important;
         border: 1px solid rgba(255, 215, 0, 0.1) !important;
-        color: #fff !important;
+        color: #ffffff !important; 
         border-radius: 12px !important;
-        padding: 14px 15px 14px 45px !important; /* ადგილი იკონისთვის */
+        padding: 14px 15px 14px 45px !important; 
         font-size: 0.95rem;
         transition: all 0.3s ease !important;
+    }
+
+    .auth-control::placeholder {
+        color: rgba(255, 255, 255, 0.5) !important;
     }
 
     .auth-control:focus {
@@ -73,9 +76,9 @@
         border-color: #ffd700 !important;
         box-shadow: 0 0 15px rgba(212, 175, 55, 0.2) !important;
         outline: none;
+        color: #ffffff !important;
     }
 
-    /* ღილაკი */
     .btn-auth {
         background: #ffd700 !important;
         color: #000 !important;
@@ -117,19 +120,16 @@
 <div class="login-container">
     <div class="auth-card text-center">
         <div class="mb-4">
-            <!-- აქ შეგიძლია ლოგოც ჩასვა -->
             <h1 class="auth-title">WELCOME</h1>
             <p class="auth-subtitle">ავტორიზაცია Delivero-ს პანელში</p>
         </div>
 
         <form method="POST">
-            <!-- იუზერნეიმი -->
             <div class="auth-input-group">
                 <i class="fas fa-user"></i>
                 <input type="text" name="username" class="form-control auth-control" placeholder="მომხმარებელი" required>
             </div>
 
-            <!-- პაროლი -->
             <div class="auth-input-group">
                 <i class="fas fa-lock"></i>
                 <input type="password" name="password" class="form-control auth-control" placeholder="პაროლი" required>
