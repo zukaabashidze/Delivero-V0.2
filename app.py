@@ -75,7 +75,7 @@ def about():
     return render_template('about.html')
 
 @app.route('/business')
-def about(): 
+def business(): 
     return render_template('business.html')
 
 @app.route('/apply', methods=['GET', 'POST'])
