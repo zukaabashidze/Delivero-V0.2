@@ -74,9 +74,9 @@ def index():
 def about(): 
     return render_template('about.html')
 
-@app.route('/buisness')
+@app.route('/business')
 def about(): 
-    return render_template('buisness.html')
+    return render_template('business.html')
 
 @app.route('/apply', methods=['GET', 'POST'])
 def apply():
