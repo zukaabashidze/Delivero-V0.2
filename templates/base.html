@@ -64,13 +64,14 @@ body{
 .nav-link-custom::after{
     content:'';
     position:absolute;
-    left:0;
-    bottom:-6px;
+    left:50%;
+    bottom:-5px;
     width:0%;
     height:2px;
     background:linear-gradient(90deg, var(--gold), var(--blue));
     border-radius:30px;
     transition:var(--transition);
+    transform:translateX(-50%);
 }
 .nav-link-custom:hover::after{width:100%;}
 .nav-link-custom:hover{color:white!important;}
@@ -158,10 +159,12 @@ body{
         width: 100% !important;
         gap: 12px !important;
         margin-top: 20px !important;
+        align-items: center !important;
     }
     .btn-register-gold, .btn-premium, .btn-outline-light {
         width: 100% !important;
         text-align: center;
+        margin: 5px 0 !important;
     }
 }
 
@@ -217,7 +220,7 @@ footer {
                         <a href="/logout" class="btn btn-outline-light btn-sm ms-2">გასვლა</a>
                     {% else %}
                         <a href="/register" class="btn btn-register-gold btn-sm me-2 px-4">რეგისტრაცია</a>
-                        <a href="/login" class="btn btn-premium btn-sm px-4">შესვლა</a>
+                        <a href="/login" class="btn btn-register-gold btn-sm px-4">შესვლა</a>
                     {% endif %}
                 </div>
             </div>
@@ -246,11 +249,11 @@ footer {
 {% block content %}{% endblock %}
 
 <footer>
-    <div class="container position-relative" style="z-index: 1;">
+    <div class="container position-relative">
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
                 <a href="/" class="footer-brand text-white text-decoration-none">DELIVERO<span class="accent-text">.GE</span></a>
-                <p class="text-white-50 pe-lg-5">პროფესიონალური და უსაფრთხო საკურიერო სერვისი თბილისის და რუსთავის მასშტაბით.</p>
+                <p class="text-white-50 pe-lg-5">პროფესიონალური და უსაფრთხო საკურიერო სერვისი მთელი საქართველოს მასშტაბით.</p>
                 <div class="social-links">
                     <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
