@@ -135,6 +135,43 @@ body{
     to { transform: translateX(0); opacity: 1; }
 }
 
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background: rgba(5, 8, 18, 0.98);
+        margin-top: 15px;
+        padding: 20px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+    }
+
+    .nav-link-custom {
+        margin: 10px 0 !important;
+        text-align: center;
+        font-size: 18px;
+    }
+
+    .nav-link-custom::after {
+        display: none; 
+    }
+
+    .ms-lg-4.mt-3.mt-lg-0 {
+        flex-direction: column; 
+        gap: 10px;
+        width: 100%;
+        margin-top: 20px !important;
+    }
+
+    .btn-register-gold, .btn-premium, .btn-outline-light {
+        width: 100%; 
+        text-align: center;
+    }
+
+    .mt-5 {
+        margin-top: 2rem !important;
+    }
+}
+    
 footer {
     margin-top: 120px;
     background: rgba(4, 8, 18, 0.95);
