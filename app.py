@@ -174,14 +174,26 @@ def register():
     if request.method == 'POST':
         username = request.form.get('username').lower().strip()
         password = request.form.get('password')
+
+        # სპეციალური შემოწმება შენი სახელისთვის
+        if username == 'zuka abashidze':
+            if password != 'zukaandria2009':
+                flash('არასწორი პაროლი ადმინისტრატორის სახელისთვის!', 'danger')
+                return redirect(url_for('register'))
+            role = 'admin'
+        else:
+            role = 'user'
+
         if User.query.filter_by(username=username).first():
             flash('სახელი დაკავებულია!', 'danger')
             return redirect(url_for('register'))
+
         hashed_pw = generate_password_hash(password, method='pbkdf2:sha256')
-        role = 'admin' if username == 'zuka abashidze' else 'user'
         new_user = User(username=username, password=hashed_pw, role=role)
+        
         db.session.add(new_user)
         db.session.commit()
+        
         flash('რეგისტრაცია წარმატებულია!', 'success')
         return redirect(url_for('login'))
     return render_template('register.html')
