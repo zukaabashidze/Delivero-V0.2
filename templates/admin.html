@@ -7,30 +7,79 @@
         border: 1px solid rgba(212, 175, 55, 0.1) !important;
         margin-bottom: 30px;
     }
-    .form-control {
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    .form-control, .form-select {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(212, 175, 55, 0.3) !important;
         color: white !important;
         border-radius: 10px;
     }
-    .form-control:focus {
-        border-color: #ffd700 !important;
-        box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.6) !important;
     }
+    .form-control::-webkit-input-placeholder { color: rgba(255, 255, 255, 0.6); }
+    .form-control::-moz-placeholder { color: rgba(255, 255, 255, 0.6); }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #ffd700 !important;
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        background: rgba(255, 255, 255, 0.15) !important;
+    }
+    .section-title { color: #ffd700; font-weight: bold; margin-bottom: 20px; }
+    .custom-table { color: white !important; }
+    .custom-table thead { border-bottom: 2px solid rgba(212, 175, 55, 0.3); }
 </style>
 
 <div class="container mt-4">
-    <!-- სტატისტიკა -->
     <div class="row justify-content-center mb-4">
         <div class="col-md-4">
-            <div class="stats-card shadow">
+            <div class="stats-card shadow text-center p-3" style="background: rgba(255,255,255,0.05); border-radius: 20px; border: 1px solid rgba(212,175,55,0.2);">
                 <h6 style="color: #ffd700; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;">ჯამური შეკვეთები</h6>
                 <h2 style="color: #fff; font-weight: bold;">{{ total_orders }}</h2>
+                <a href="{{ url_for('reset_all_orders') }}" class="btn btn-sm btn-outline-danger mt-2" onclick="return confirm('ნამდვილად გსურთ ყველა შეკვეთის წაშლა?')">
+                    <i class="fas fa-trash-alt"></i> ბაზის გასუფთავება
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- მომხმარებლების მართვა -->
+    <div class="admin-card shadow-lg p-4">
+        <h4 class="section-title"><i class="fas fa-list-ul me-2"></i>შეკვეთების სია</h4>
+        <div class="table-responsive">
+            <table class="table custom-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ნივთი</th>
+                        <th>კლიენტი</th>
+                        <th>სტატუსი</th>
+                        <th>მოქმედება</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td><code>#{{ order.id }}</code></td>
+                        <td>{{ order.item_name }}</td>
+                        <td>{{ order.customer_name }}</td>
+                        <td>
+                            <span class="badge bg-secondary">{{ order.status }}</span>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('delete_order', id=order.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('წავშალოთ შეკვეთა?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">შეკვეთები არ მოიძებნა</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <div class="admin-card shadow-lg p-4">
         <h4 class="section-title"><i class="fas fa-users me-2"></i>მომხმარებლების მართვა</h4>
         <div class="table-responsive">
@@ -44,7 +93,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for u in couriers + users %}
+                    {% for u in all_members %}
                     <tr>
                         <td><code>#{{ u.id }}</code></td>
                         <td class="fw-bold">{{ u.username }}</td>
@@ -67,66 +116,76 @@
         </div>
     </div>
 
-    <!-- შემოსული CV-ები -->
     <div class="admin-card shadow-lg p-4">
-        <h4 class="section-title"><i class="fas fa-file-pdf me-2"></i>შემოსული CV-ები</h4>
-        <div class="table-responsive">
-            <table class="table custom-table text-white">
-                <thead>
-                    <tr>
-                        <th>სახელი</th>
-                        <th>თარიღი</th>
-                        <th>ფაილი</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for cv in cvs %}
-                    <tr>
-                        <td>{{ cv.applicant_name }}</td>
-                        <td>{{ cv.date_submitted }}</td>
-                        <td>
-                            <a href="{{ url_for('view_cv', cv_id=cv.id) }}" class="btn btn-sm btn-warning">ნახვა</a>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="3" class="text-center text-muted">CV-ები ჯერ არ არის შემოსული</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <h4 class="section-title"><i class="fas fa-file-pdf me-2"></i>კურიერობის კანდიდატები</h4>
+    <div class="table-responsive">
+        <table class="table custom-table text-white">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>მომხმარებელი</th>
+                    <th>სტატუსი</th>
+                    <th>მოქმედება</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app_item in apps %}
+                <tr>
+                    <td><code>#{{ app_item.id }}</code></td>
+                    <td>ID: {{ app_item.user_id }} ({{ app_item.name }})</td>
+                    <td>
+                        <span class="badge bg-warning text-dark">{{ app_item.status }}</span>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{{ url_for('approve_courier', id=app_item.id) }}" class="btn btn-sm btn-success">დადასტურება</a>
+                            <a href="{{ url_for('reject_courier', id=app_item.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('ნამდვილად გსურთ უარყოფა?')">უარყოფა</a>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted">განაცხადები ჯერ არ არის შემოსული</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+</div>
 
-    <!-- ახალი ნივთის დამატება (ამანათის შეყვანა) -->
     <div class="admin-card shadow-lg p-4">
-        <h4 class="section-title"><i class="fas fa-box-open me-2"></i>ახალი ნივთის (ამანათის) დამატება</h4>
-        <form action="{{ url_for('add_package') }}" method="POST">
+        <h4 class="section-title"><i class="fas fa-cart-plus me-2"></i>შეკვეთის გაფორმება</h4>
+        <form action="{{ url_for('create_order') }}" method="POST">
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label class="text-white-50">მომხმარებლის სახელი ან ID</label>
-                    <input type="text" name="user_identifier" class="form-control" placeholder="მაგ: #123 ან giorgi123" required>
+                    <input type="text" name="item_name" class="form-control" placeholder="ნივთის ID" required>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label class="text-white-50">თრექინგ კოდი</label>
-                    <input type="text" name="tracking_code" class="form-control" placeholder="მაგ: XYZ987654" required>
+                    <input type="text" name="customer_name" class="form-control" placeholder="კლიენტის სახელი" required>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label class="text-white-50">წონა (კგ)</label>
-                    <input type="number" step="0.01" name="weight" class="form-control" placeholder="0.00">
+                    <input type="text" name="customer_phone" class="form-control" placeholder="ტელეფონი" required>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label class="text-white-50">სტატუსი</label>
-                    <select name="status" class="form-control">
-                        <option value="საწყობშია">საწყობშია</option>
-                        <option value="გზაშია">გზაშია</option>
-                        <option value="ჩამოვიდა">ჩამოვიდა</option>
+                    <input type="text" name="city" class="form-control" placeholder="ქალაქი" required>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <input type="text" name="address" class="form-control" placeholder="ზუსტი მისამართი" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <input type="number" step="0.01" name="price" class="form-control" placeholder="ფასი (₾)" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <select name="courier_id" class="form-select">
+                        <option value="">აირჩიეთ კურიერი (სურვილისამებრ)</option>
+                        {% for c in couriers %}
+                        <option value="{{ c.id }}">{{ c.username }}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
-            <button type="submit" class="btn btn-warning w-100 mt-2">მონაცემების შენახვა</button>
+            <button type="submit" class="btn btn-warning w-100 fw-bold text-dark">შეკვეთის შექმნა</button>
         </form>
     </div>
-
 </div>
 {% endblock %}
