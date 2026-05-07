@@ -55,7 +55,7 @@ class Order(db.Model):
     city = db.Column(db.String(50))      
     address = db.Column(db.String(200))
     weight = db.Column(db.String(20))
-    price = db.Column(db.Float)            
+    price = db.Column(db.Float)             
     status = db.Column(db.String(20), default='მიღებულია')
     courier_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -75,7 +75,7 @@ def about():
     return render_template('about.html')
 
 @app.route('/business')
-def business(): 
+def business_page(): # აქ შევცვალე სახელი, რომ არ დაეერორებინა
     return render_template('business.html')
 
 @app.route('/apply', methods=['GET', 'POST'])
@@ -99,7 +99,7 @@ def apply():
         )
         
         db.session.add(new_app)
-        db.session.flush()  # ეს აგენერირებს ID-ს ბაზაში შენახვამდე
+        db.session.flush() 
 
         msg = (f"🚴 <b>ახალი კურიერის განაცხადი! #{new_app.id}</b>\n"
                f"───────────────\n"
@@ -130,7 +130,6 @@ def contact():
         return redirect(url_for('contact'))
     return render_template('contact.html')
 
-    
 @app.route('/reject_courier/<int:id>')
 @login_required
 def reject_courier(id):
@@ -147,7 +146,6 @@ def reject_courier(id):
                f"⚠️ <b>სტატუსი:</b> წაშლილია სისტემიდან")
         
         send_telegram_notification(msg)
-        
 
         db.session.delete(app_obj)
         db.session.commit()
@@ -175,7 +173,7 @@ def register():
         username = request.form.get('username').lower().strip()
         password = request.form.get('password')
 
-        # სპეციალური შემოწმება შენი სახელისთვის
+        # შენი მოთხოვნილი ჩასწორება აქ არის:
         if username == 'zuka abashidze':
             if password != 'zukaandria2009':
                 flash('არასწორი პაროლი ადმინისტრატორის სახელისთვის!', 'danger')
@@ -210,7 +208,6 @@ def login():
         flash('არასწორი მონაცემები!', 'danger')
     return render_template('login.html')
 
-
 @app.route('/forgot-password', methods=['GET', 'POST'])
 def forgot_password():
     if request.method == 'POST':
@@ -226,7 +223,6 @@ def forgot_password():
         return redirect(url_for('login'))
     
     return render_template('forgot_password.html')
-
 
 @app.route('/dashboard')
 @login_required
@@ -303,7 +299,6 @@ def create_order():
         flash('შეცდომა შეკვეთის შექმნისას', 'danger')
     return redirect(url_for('admin'))
 
-
 @app.route('/delete_order/<int:id>')
 @login_required
 def delete_order(id):
@@ -325,7 +320,6 @@ def reset_all_orders():
         db.session.commit()
         flash('ყველა შეკვეთა წაშლილია!', 'warning')
     return redirect(url_for('admin'))
-
 
 @app.route('/admin_reset_password/<int:user_id>')
 @login_required
@@ -372,7 +366,6 @@ def view_cv(cv_id):
         return redirect(url_for('dashboard'))
     return redirect(url_for('admin'))
 
-
 @app.route('/privacy-policy')
 def privacy():
     return render_template('privacy.html')
@@ -385,7 +378,8 @@ def logout():
 if __name__ == '__main__':
     if not os.path.exists('instance'): os.makedirs('instance')
     with app.app_context(): db.create_all() 
-    bot_thread = Thread(target=lambda: bot.pol/ling(none_stop=True))
+    # აქ იყო შეცდომა (pol/ling), გავასწორე:
+    bot_thread = Thread(target=lambda: bot.polling(none_stop=True))
     bot_thread.daemon = True
     bot_thread.start()
     port = int(os.environ.get("PORT", 5000))
