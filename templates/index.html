@@ -4,7 +4,6 @@
 <style>
     body { background-color: #030303; color: #fff; font-family: 'Inter', sans-serif; }
     
-    /* Hero Section */
     .hero-premium {
         height: 85vh;
         background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.6)), 
@@ -27,7 +26,6 @@
         filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3));
     }
 
-    /* Tracking Box */
     .glass-search {
         background: rgba(255, 255, 255, 0.03);
         backdrop-filter: blur(20px);
@@ -52,14 +50,21 @@
         font-size: 1.1rem;
     }
 
-    /* აქ არის placeholder-ის გათეთრება */
-    .form-control-track::placeholder {
-        color: #ffffff !important;
-        opacity: 0.9 !important;
-    }
+    .form-control-track::placeholder { color: #ffffff !important; opacity: 0.9 !important; }
     .form-control-track::-webkit-input-placeholder { color: #ffffff !important; }
 
-    /* Feature Cards */
+    @media (max-width: 576px) {
+        .glass-search { border-radius: 20px; padding: 5px; }
+        .form-control-track { padding-left: 15px; font-size: 0.9rem; }
+        .form-control-track::placeholder { color: transparent !important; }
+        .form-control-track:placeholder-shown {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='20'%3E%3Ctext y='15' fill='white' font-family='Inter' font-size='12'%3Eშეკვეთის ID...%3C/text%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left center;
+        }
+        .btn-gold { padding: 10px 20px; font-size: 0.8rem; }
+    }
+
     .feature-card {
         background: rgba(255,255,255,0.02);
         border: 1px solid rgba(255,255,255,0.05);
@@ -75,11 +80,8 @@
         border-color: rgba(212, 175, 55, 0.4);
     }
 
-    .feature-card img {
-        filter: invert(1) drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
-    }
+    .feature-card img { filter: invert(1) drop-shadow(0 0 10px rgba(212, 175, 55, 0.5)); }
 
-    /* Buttons */
     .btn-gold {
         background: linear-gradient(45deg, #d4af37, #b8860b);
         color: #000;
