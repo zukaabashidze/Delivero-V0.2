@@ -304,11 +304,15 @@ def logout():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    if not os.path.exists('instance'): os.makedirs('instance')
-    with app.app_context(): db.create_all()
+    if not os.path.exists('instance'): 
+        os.makedirs('instance')
+    
+    with app.app_context():
+        db.create_all() 
     
     bot_thread = Thread(target=lambda: bot.polling(none_stop=True))
     bot_thread.daemon = True
     bot_thread.start()
     
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
