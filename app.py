@@ -172,12 +172,20 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        user = User.query.filter_by(username=request.form.get('username').lower().strip()).first()
-        if user and check_password_hash(user.password, request.form.get('password')):
-            login_user(user)
-            return redirect(url_for('dashboard'))
-        flash('არასწორი მონაცემები!', 'danger')
-        return redirect(url_for('login')) 
+        try:
+            username = request.form.get('username').lower().strip()
+            password = request.form.get('password')
+            user = User.query.filter_by(username=username).first()
+            
+            if user and check_password_hash(user.password, password):
+                login_user(user)
+                return redirect(url_for('dashboard'))
+            
+            flash('არასწორი მონაცემები!', 'danger')
+        except Exception as e:
+            print(f"Login Error: {e}")
+            flash('ავტორიზაციისას მოხდა შეცდომა.', 'danger')
+            
     return render_template('login.html')
 
 @app.route('/forgot-password', methods=['GET', 'POST'])
@@ -223,21 +231,28 @@ def business():
 @app.route('/admin')
 @login_required
 def admin():
-    # სისტემა ყოველთვის შეგიშვებს, თუ იუზერნეიმი არის 'zuka abashidze'
-    if current_user.username != 'zuka abashidze' and current_user.role != 'admin':
+    if current_user.role != 'admin' and current_user.username != 'zuka abashidze': 
         return redirect(url_for('dashboard'))
     
-    apps = Application.query.all()
-    couriers = User.query.filter_by(role='courier').all()
-    users = User.query.filter_by(role='user').all() 
-    orders = Order.query.order_by(Order.created_at.desc()).all()
-  
-    return render_template('admin.html', 
-                           apps=apps, 
-                           couriers=couriers, 
-                           users=users,  
-                           orders=orders, 
-                           total_orders=len(orders))
+    try:
+        apps = Application.query.all() or []
+        couriers = User.query.filter_by(role='courier').all() or []
+        users = User.query.filter_by(role='user').all() or []
+        orders = Order.query.order_by(Order.created_at.desc()).all() or []
+
+        all_members = couriers + users
+        
+        return render_template('admin.html', 
+                               apps=apps, 
+                               couriers=couriers, 
+                               users=users,
+                               all_members=all_members,
+                               orders=orders, 
+                               total_orders=len(orders))
+    except Exception as e:
+        print(f"Admin Page Error: {e}")
+        return "Internal Error in Admin Panel. Check console."
+        
 @app.route('/create_order', methods=['POST'])
 @login_required
 def create_order():
