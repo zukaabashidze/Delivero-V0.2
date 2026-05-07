@@ -74,6 +74,10 @@ def index():
 def about(): 
     return render_template('about.html')
 
+@app.route('/buisness')
+def about(): 
+    return render_template('buisness.html')
+
 @app.route('/apply', methods=['GET', 'POST'])
 def apply():
     if request.method == 'POST':
