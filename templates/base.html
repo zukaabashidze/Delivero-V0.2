@@ -6,13 +6,7 @@
     
     <title>{% block title %}Delivero.ge | სწრაფი საკურიერო მომსახურება{% endblock %}</title>
 
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
-    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-        <rect width='100' height='100' rx='30' fill='%23ffcc33'/>
-        <g transform='matrix(0.8, 0, 0, 0.8, 10, 10)'>
-            <image href='{{ url_for('static', filename='images/Logo.png') }}' width='100' height='100' />
-        </g>
-    </svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='30' fill='%23ffcc33'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='Inter, sans-serif' font-weight='900' font-size='60' fill='%23040812'>D</text></svg>">
     
     <meta name="description" content="{% block description %}Delivero.ge - პროფესიონალური და უსაფრთხო საკურიერო სერვისი მთელი საქართველოს მასშტაბით. ამანათების მიტანა იმავე დღეს.{% endblock %}">
     <meta name="keywords" content="კურიერი, საკურიერო მომსახურება, ამანათის გაგზავნა, მიტანის სერვისი, თბილისი, Delivero, დელივერო">
@@ -224,22 +218,6 @@ footer {
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
     text-shadow:0 0 25px rgba(255,204,51,0.35);
-}
-.premium-logo-icon {
-    width: 60px;
-    height: 60px;
-    background: var(--glass);
-    border: 2px solid var(--gold);
-    border-radius: 18px;
-    padding: 10px;
-    object-fit: contain;
-    transition: var(--transition);
-    box-shadow: 0 0 15px var(--gold-glow);
-}
-
-.premium-logo-icon:hover {
-    transform: scale(1.05);
-    background: rgba(255, 204, 51, 0.1);
 }
 </style>
 </head>
