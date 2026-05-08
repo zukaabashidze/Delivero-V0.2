@@ -162,7 +162,7 @@ def track():
             try:
                 order = db.session.get(Order, int(order_id))
                 if not order:
-                    flash('ამანათი ამ ID-ით ვერ მოიძებნა!', 'danger') 
+                    flash('ამანათი ამ ID-ით ვერ მოიძებნა!', 'track_error')
             except ValueError:
                 flash('გთხოვთ შეიყვანოთ სწორი ID (ციფრები)!', 'danger') 
         else:
