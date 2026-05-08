@@ -96,8 +96,7 @@
                     <button type="submit" class="btn btn-delivero-bright w-100">ამანათის ძებნა</button>
                 </form>
 
-                <!-- შეცდომის შეტყობინებები (Flash Messages) -->
-                {% with messages = get_flashed_messages() %}
+                {% with messages = get_flashed_messages(category_filter=["track_error"]) %}
                   {% if messages %}
                     {% for message in messages %}
                     <div class="mt-3 animated-result">
