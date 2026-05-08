@@ -6,7 +6,22 @@
     
     <title>{% block title %}Delivero.ge | სწრაფი საკურიერო მომსახურება{% endblock %}</title>
 
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><foreignObject width='100' height='100'><div xmlns='http://www.w3.org/1999/xhtml' style='width:100%;height:100%;background:rgba(255,204,51,0.1);backdrop-filter:blur(2px);border:4px solid %23ffcc33;border-radius:25px;display:flex;align-items:center;justify-content:center;overflow:hidden;'><img src='{{ url_for('static', filename='images/Delivero Swift & Secure Logo.png') }}' style='width:85%;height:85%;object-fit:contain;'/></div></foreignObject></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+        <style>
+            .fav-bg { 
+                fill: rgba(255, 204, 51, 0.1); 
+                stroke: %23ffcc33; 
+                stroke-width: 4;
+            }
+            .rounded-rect { 
+                rx: 25; /* მომრგვალება */
+                ry: 25; 
+            }
+        </style>
+        <rect x='2' y='2' width='96' height='96' class='fav-bg rounded-rect' />
+        <image href='{{ url_for('static', filename='images/Delivero Swift & Secure Logo.png') }}' x='10' y='10' width='80' height='80' />
+    </svg>">
 
     <meta name="description" content="{% block description %}Delivero.ge - პროფესიონალური და უსაფრთხო საკურიერო სერვისი მთელი საქართველოს მასშტაბით. ამანათების მიტანა იმავე დღეს.{% endblock %}">
     <meta name="keywords" content="კურიერი, საკურიერო მომსახურება, ამანათის გაგზავნა, მიტანის სერვისი, თბილისი, Delivero, დელივერო">
