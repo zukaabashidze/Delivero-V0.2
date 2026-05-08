@@ -156,36 +156,6 @@ def apply():
     return render_template('apply.html')
 
 
-@app.route('/update_order_status/<int:id>/<string:status>')
-@login_required
-def update_order_status(id, status):
-    order_obj = db.session.get(Order, id)
-    if order_obj:
-        old_status = order_obj.status
-        order_obj.status = status
-        
-        if status == "გზაშია":
-            order_obj.courier_handed_at = datetime.utcnow()
-        
-        db.session.commit()
-
-        status_emoji = "✅" if status == "მიტანილია" else "🚚"
-        if status == "გაუქმებულია": status_emoji = "❌"
-        
-        msg = (f"{status_emoji} <b>შეკვეთის სტატუსი განახლდა! #{order_obj.id}</b>\n"
-               f"───────────────\n"
-               f"🛒 <b>ნივთი:</b> {order_obj.item_name}\n"
-               f"👤 <b>კლიენტი:</b> {order_obj.customer_name}\n"
-               f"📍 <b>მისამართი:</b> {order_obj.city}, {order_obj.address}\n"
-               f"🔄 <b>სტატუსი:</b> <u>{old_status}</u> ➔ <b>{status}</b>\n"
-               f"👤 <b>ვინ შეცვალა:</b> {current_user.username}")
-        
-        send_telegram_notification(msg)
-
-        flash(f'სტატუსი განახლდა: {status}', 'success')
-    
-    return redirect(request.referrer or url_for('dashboard'))
-
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
@@ -430,13 +400,28 @@ def approve_courier(id):
 def update_order_status(id, status):
     order_obj = db.session.get(Order, id)
     if order_obj:
+        old_status = order_obj.status
         order_obj.status = status
+        
         if status == "გზაშია":
             order_obj.courier_handed_at = datetime.utcnow()
+        
         db.session.commit()
-        flash('სტატუსი განახლდა!', 'success')
-    return redirect(request.referrer or url_for('dashboard'))
+        status_emoji = "✅" if status == "მიტანილია" else "🚚"
+        if status == "გაუქმებულია": status_emoji = "❌"
+        
+        msg = (f"{status_emoji} <b>შეკვეთის სტატუსი განახლდა! #{order_obj.id}</b>\n"
+               f"───────────────\n"
+               f"🛒 <b>ნივთი:</b> {order_obj.item_name}\n"
+               f"🔄 <b>სტატუსი:</b> <u>{old_status}</u> ➔ <b>{status}</b>\n"
+               f"👤 <b>ვინ შეცვალა:</b> {current_user.username}")
+        
+        send_telegram_notification(msg)
 
+        flash(f'სტატუსი განახლდა: {status}', 'success')
+    
+    return redirect(request.referrer or url_for('dashboard'))
+    
 @app.route('/privacy-policy')
 def privacy():
     return render_template('privacy.html')
