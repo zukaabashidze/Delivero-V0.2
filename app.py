@@ -156,17 +156,20 @@ def reject_courier(id):
 @app.route('/track', methods=['GET', 'POST'])
 def track():
     order = None
-    error = False
     if request.method == 'POST':
         order_id = request.form.get('order_id')
         if order_id:
             try:
                 order = db.session.get(Order, int(order_id))
-                if not order: error = True
-            except ValueError: error = True
-        else: error = True
-    return render_template('track.html', order=order, error=error)
-
+                if not order:
+                    flash('ამანათი ამ ID-ით ვერ მოიძებნა!', 'danger') 
+            except ValueError:
+                flash('გთხოვთ შეიყვანოთ სწორი ID (ციფრები)!', 'danger') 
+        else:
+            flash('გთხოვთ შეიყვანოთ ID ნომერი!', 'danger')
+            
+    return render_template('track.html', order=order)
+    
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
