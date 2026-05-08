@@ -159,8 +159,15 @@
                 </div>
                 {% elif error %}
                 <div class="mt-4 animated-result">
-                    <div class="alert p-3 text-center" style="background: rgba(220, 53, 69, 0.1); border: 1px solid #dc3545; color: #ff4d4d; border-radius: 12px;">
-                        <i class="fas fa-exclamation-circle me-2"></i> შეკვეთა ვერ მოიძებნა
+                    <div class="alert p-3 text-center" style="
+                        background: rgba(255, 0, 0, 0.15); 
+                        border: 2px solid #ff4d4d; 
+                        color: #ff4d4d; 
+                        border-radius: 15px;
+                        box-shadow: 0 0 15px rgba(255, 77, 77, 0.2);
+                        font-weight: 600;">
+                        <i class="fas fa-exclamation-triangle me-2"></i> 
+                        ამანათი ამ ID-ით ვერ მოიძებნა!
                     </div>
                 </div>
                 {% endif %}
