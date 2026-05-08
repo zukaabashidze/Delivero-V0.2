@@ -22,8 +22,6 @@ TELEGRAM_TOKEN = "8722774055:AAGrs56BqrvegJx8BD3Pxy64DtPUkJ12owA"
 TELEGRAM_CHAT_ID = "6510438875" 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
-# --- SEO & Sitemap ფუნქციონალი ---
-
 @app.route('/robots.txt')
 def robots():
     """რობოტების ფაილი Google-ისთვის"""
@@ -35,7 +33,6 @@ def sitemap():
     pages = []
     ten_days_ago = datetime.now().date().isoformat()
     
-    # [მისამართი, პრიორიტეტი]
     static_urls = [
         ['/', '1.0'],
         ['/about', '0.8'],
@@ -59,7 +56,6 @@ def sitemap():
     response.headers["Content-Type"] = "application/xml"
     return response
 
-# --- მონაცემთა ბაზის მოდელები ---
 
 def send_telegram_notification(message):
     try:
@@ -110,8 +106,6 @@ class Order(db.Model):
 def load_user(id): 
     return db.session.get(User, int(id))
 
-# --- მარშრუტები (Routes) ---
-
 @app.route('/')
 def index(): 
     return render_template('index.html')
@@ -160,6 +154,38 @@ def apply():
         flash('თქვენი განაცხადი წარმატებით გაიგზავნა!', 'success')
         return redirect(url_for('index'))
     return render_template('apply.html')
+
+
+@app.route('/update_order_status/<int:id>/<string:status>')
+@login_required
+def update_order_status(id, status):
+    order_obj = db.session.get(Order, id)
+    if order_obj:
+        old_status = order_obj.status
+        order_obj.status = status
+        
+        if status == "გზაშია":
+            order_obj.courier_handed_at = datetime.utcnow()
+        
+        db.session.commit()
+
+        status_emoji = "✅" if status == "მიტანილია" else "🚚"
+        if status == "გაუქმებულია": status_emoji = "❌"
+        
+        msg = (f"{status_emoji} <b>შეკვეთის სტატუსი განახლდა! #{order_obj.id}</b>\n"
+               f"───────────────\n"
+               f"🛒 <b>ნივთი:</b> {order_obj.item_name}\n"
+               f"👤 <b>კლიენტი:</b> {order_obj.customer_name}\n"
+               f"📍 <b>მისამართი:</b> {order_obj.city}, {order_obj.address}\n"
+               f"🔄 <b>სტატუსი:</b> <u>{old_status}</u> ➔ <b>{status}</b>\n"
+               f"👤 <b>ვინ შეცვალა:</b> {current_user.username}")
+        
+        send_telegram_notification(msg)
+
+        flash(f'სტატუსი განახლდა: {status}', 'success')
+    
+    return redirect(request.referrer or url_for('dashboard'))
+
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
