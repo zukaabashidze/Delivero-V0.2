@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -21,6 +21,45 @@ login_manager.login_view = 'login'
 TELEGRAM_TOKEN = "8722774055:AAGrs56BqrvegJx8BD3Pxy64DtPUkJ12owA"
 TELEGRAM_CHAT_ID = "6510438875" 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
+
+# --- SEO & Sitemap ფუნქციონალი ---
+
+@app.route('/robots.txt')
+def robots():
+    """რობოტების ფაილი Google-ისთვის"""
+    return "User-agent: *\nAllow: /\nSitemap: https://delivero.ge/sitemap.xml"
+
+@app.route('/sitemap.xml')
+def sitemap():
+    """საიტის რუკის გენერაცია Google Search Console-ისთვის"""
+    pages = []
+    ten_days_ago = datetime.now().date().isoformat()
+    
+    # [მისამართი, პრიორიტეტი]
+    static_urls = [
+        ['/', '1.0'],
+        ['/about', '0.8'],
+        ['/track', '0.9'],
+        ['/contact', '0.8'],
+        ['/apply', '0.8'],
+        ['/business', '0.8']
+    ]
+    
+    xml_sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml_sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    
+    for url in static_urls:
+        xml_sitemap += f'<url>\n<loc>https://delivero.ge{url[0]}</loc>\n'
+        xml_sitemap += f'<lastmod>{ten_days_ago}</lastmod>\n'
+        xml_sitemap += f'<priority>{url[1]}</priority>\n</url>\n'
+        
+    xml_sitemap += '</urlset>'
+    
+    response = make_response(xml_sitemap)
+    response.headers["Content-Type"] = "application/xml"
+    return response
+
+# --- მონაცემთა ბაზის მოდელები ---
 
 def send_telegram_notification(message):
     try:
@@ -66,6 +105,8 @@ class Order(db.Model):
 def load_user(id): 
     return db.session.get(User, int(id))
 
+# --- მარშრუტები (Routes) ---
+
 @app.route('/')
 def index(): 
     return render_template('index.html')
@@ -75,7 +116,7 @@ def about():
     return render_template('about.html')
 
 @app.route('/business')
-def business_page(): # აქ შევცვალე სახელი, რომ არ დაეერორებინა
+def business_page():
     return render_template('business.html')
 
 @app.route('/apply', methods=['GET', 'POST'])
@@ -146,11 +187,9 @@ def reject_courier(id):
                f"⚠️ <b>სტატუსი:</b> წაშლილია სისტემიდან")
         
         send_telegram_notification(msg)
-
         db.session.delete(app_obj)
         db.session.commit()
-        
-        flash(f'განაცხადი #{id} უარყოფილია და შეტყობინება გაიგზავნა.', 'warning')
+        flash(f'განაცხადი #{id} უარყოფილია.', 'warning')
     return redirect(url_for('admin'))
 
 @app.route('/track', methods=['GET', 'POST'])
@@ -164,19 +203,15 @@ def track():
                 if not order:
                     flash('ამანათი ამ ID-ით ვერ მოიძებნა!', 'track_error')
             except ValueError:
-                flash('გთხოვთ შეიყვანოთ სწორი ID (ციფრები)!', 'danger') 
-        else:
-            flash('გთხოვთ შეიყვანოთ ID ნომერი!', 'danger')
-            
+                flash('გთხოვთ შეიყვანოთ სწორი ID!', 'danger') 
     return render_template('track.html', order=order)
-    
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form.get('username').lower().strip()
         password = request.form.get('password')
 
-        # შენი მოთხოვნილი ჩასწორება აქ არის:
         if username == 'zuka abashidze':
             if password != 'zukaandria2009':
                 flash('არასწორი პაროლი ადმინისტრატორის სახელისთვის!', 'danger')
@@ -191,10 +226,8 @@ def register():
 
         hashed_pw = generate_password_hash(password, method='pbkdf2:sha256')
         new_user = User(username=username, password=hashed_pw, role=role)
-        
         db.session.add(new_user)
         db.session.commit()
-        
         flash('რეგისტრაცია წარმატებულია!', 'success')
         return redirect(url_for('login'))
     return render_template('register.html')
@@ -216,15 +249,12 @@ def forgot_password():
     if request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
-        
         msg = (f"🔑 <b>პაროლის აღდგენის მოთხოვნა!</b>\n"
                f"👤 <b>მომხმარებელი:</b> {username}\n"
                f"📧 <b>Gmail:</b> {email}")
         send_telegram_notification(msg)
-        
-        flash('მოთხოვნა გაიგზავნა! ადმინისტრაცია მალე დაგიკავშირდებათ.', 'info')
+        flash('მოთხოვნა გაიგზავნა!', 'info')
         return redirect(url_for('login'))
-    
     return render_template('forgot_password.html')
 
 @app.route('/dashboard')
@@ -295,7 +325,6 @@ def create_order():
                f"🚴 <b>კურიერი:</b> {courier_name}")
         
         send_telegram_notification(msg)
-        
         flash('შეკვეთა წარმატებით გაფორმდა!', 'success')
     except Exception as e:
         db.session.rollback()
@@ -307,12 +336,11 @@ def create_order():
 def delete_order(id):
     if current_user.role != 'admin' and current_user.username != 'zuka abashidze':
         return redirect(url_for('dashboard'))
-    
     order_obj = db.session.get(Order, id)
     if order_obj:
         db.session.delete(order_obj)
         db.session.commit()
-        flash('შეკვეთა წარმატებით წაიშალა!', 'success')
+        flash('შეკვეთა წაიშალა!', 'success')
     return redirect(url_for('admin'))
 
 @app.route('/reset_all_orders')
@@ -333,7 +361,7 @@ def admin_reset_password(user_id):
     if user:
         user.password = generate_password_hash('123456', method='pbkdf2:sha256')
         db.session.commit()
-        flash(f'{user.username}-ს პაროლი შეიცვალა: 123456', 'success')
+        flash(f'{user.username}-ს პაროლი შეიცვალა!', 'success')
     return redirect(url_for('admin'))
 
 @app.route('/approve_courier/<int:id>')
@@ -362,13 +390,6 @@ def update_order_status(id, status):
         flash('სტატუსი განახლდა!', 'success')
     return redirect(request.referrer or url_for('dashboard'))
 
-@app.route('/view_cv/<int:cv_id>')
-@login_required
-def view_cv(cv_id):
-    if current_user.role != 'admin' and current_user.username != 'zuka abashidze':
-        return redirect(url_for('dashboard'))
-    return redirect(url_for('admin'))
-
 @app.route('/privacy-policy')
 def privacy():
     return render_template('privacy.html')
@@ -381,7 +402,6 @@ def logout():
 if __name__ == '__main__':
     if not os.path.exists('instance'): os.makedirs('instance')
     with app.app_context(): db.create_all() 
-    # აქ იყო შეცდომა (pol/ling), გავასწორე:
     bot_thread = Thread(target=lambda: bot.polling(none_stop=True))
     bot_thread.daemon = True
     bot_thread.start()
