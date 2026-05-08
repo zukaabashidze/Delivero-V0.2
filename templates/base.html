@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>{% block title %}Delivero.ge | სწრაფი საკურიერო მომსახურება{% endblock %}</title>
+    
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
+
     <meta name="description" content="{% block description %}Delivero.ge - პროფესიონალური და უსაფრთხო საკურიერო სერვისი მთელი საქართველოს მასშტაბით. ამანათების მიტანა იმავე დღეს.{% endblock %}">
     <meta name="keywords" content="კურიერი, საკურიერო მომსახურება, ამანათის გაგზავნა, მიტანის სერვისი, თბილისი, Delivero, დელივერო">
     <meta name="author" content="Delivero.ge">
@@ -21,7 +24,7 @@
       "@type": "DeliveryService",
       "name": "Delivero.ge",
       "url": "https://delivero.ge",
-      "logo": "https://delivero.ge/static/img/logo.png",
+      "logo": "https://delivero.ge/static/images/favicon.png",
       "telephone": "+995558600207",
       "areaServed": "GE",
       "description": "პროფესიონალური საკურიერო მომსახურება საქართველოში",
@@ -87,6 +90,19 @@ body{
     -webkit-text-fill-color:transparent;
     text-shadow:0 0 25px rgba(255,204,51,0.35);
 }
+
+/* ლოგოს სტილები */
+.brand-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.main-logo-img {
+    height: 42px;
+    width: auto;
+    object-fit: contain;
+}
+
 .nav-link-custom{
     color:rgba(255,255,255,0.7)!important;
     margin:0 15px;
@@ -231,7 +247,12 @@ footer {
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark custom-navbar sticky-top">
     <div class="container">
-        <a class="navbar-brand text-white" href="/">DELIVERO<span class="accent-text">.GE</span></a>
+        <a class="navbar-brand text-white" href="/">
+            <div class="brand-wrapper">
+                <img src="{{ url_for('static', filename='images/favicon.png') }}" alt="Logo" class="main-logo-img">
+                <span>DELIVERO<span class="accent-text">.GE</span></span>
+            </div>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -276,7 +297,7 @@ footer {
           </div>
         {% endfor %}
       {% endif %}
-    {% endwith %}
+    {% with endwith %}
 </div>
 
 {% block content %}{% endblock %}
@@ -285,7 +306,12 @@ footer {
     <div class="container position-relative">
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
-                <a href="/" class="footer-brand text-white text-decoration-none">DELIVERO<span class="accent-text">.GE</span></a>
+                <a href="/" class="footer-brand text-white text-decoration-none">
+                    <div class="brand-wrapper">
+                        <img src="{{ url_for('static', filename='images/favicon.png') }}" alt="Logo" class="main-logo-img" style="height: 35px;">
+                        <span>DELIVERO<span class="accent-text">.GE</span></span>
+                    </div>
+                </a>
                 <p class="text-white-50 pe-lg-5">პროფესიონალური და უსაფრთხო საკურიერო სერვისი მთელი საქართველოს მასშტაბით.</p>
                 <div class="social-links">
                     <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
