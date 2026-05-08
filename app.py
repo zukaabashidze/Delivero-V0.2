@@ -64,8 +64,13 @@ def sitemap():
 def send_telegram_notification(message):
     try:
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-        payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "HTML"}
-        requests.post(url, data=payload, timeout=5)
+        payload = {
+            "chat_id": TELEGRAM_CHAT_ID, 
+            "text": message, 
+            "parse_mode": "HTML"
+        }
+        response = requests.post(url, json=payload, timeout=10)
+        print(f"Telegram Response: {response.status_code}, {response.text}") 
     except Exception as e:
         print(f"Telegram error: {e}")
 
@@ -209,7 +214,7 @@ def track():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        username = request.form.get('username').lower().strip()
+        username = request.form.get('username', '').lower().strip()
         password = request.form.get('password')
 
         if username == 'zuka abashidze':
@@ -219,17 +224,33 @@ def register():
             role = 'admin'
         else:
             role = 'user'
-
         if User.query.filter_by(username=username).first():
             flash('სახელი დაკავებულია!', 'danger')
             return redirect(url_for('register'))
 
         hashed_pw = generate_password_hash(password, method='pbkdf2:sha256')
         new_user = User(username=username, password=hashed_pw, role=role)
-        db.session.add(new_user)
-        db.session.commit()
-        flash('რეგისტრაცია წარმატებულია!', 'success')
-        return redirect(url_for('login'))
+        
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+
+            reg_msg = (f"🆕 <b>ახალი მომხმარებელი დარეგისტრირდა!</b>\n"
+                       f"───────────────\n"
+                       f"👤 <b>Username:</b> <code>{username}</code>\n"
+                       f"🛡️ <b>როლი:</b> {role}\n"
+                       f"📅 <b>დრო:</b> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+            
+            send_telegram_notification(reg_msg)
+            flash('რეგისტრაცია წარმატებულია!', 'success')
+            return redirect(url_for('login'))
+            
+        except Exception as e:
+            db.session.rollback()
+            print(f"Registration DB Error: {e}")
+            flash('შეცდომა რეგისტრაციისას!', 'danger')
+            return redirect(url_for('register'))
+
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
