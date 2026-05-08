@@ -47,6 +47,7 @@
 :root{
     --gold:#ffcc33;
     --gold-light:#ffe082;
+    --gold-glow: rgba(255, 204, 51, 0.15);
     --blue:#00bfff;
     --blue2:#0077ff;
     --dark:#040812;
@@ -78,18 +79,10 @@ body{
     background:rgba(5,8,18,0.72);
     backdrop-filter:blur(18px);
     border-bottom:1px solid rgba(255,255,255,0.06);
-    padding:12px 0; /* ოდნავ დავაკელით პედინგი ლოგოსთვის */
+    padding:18px 0;
     transition:var(--transition);
     box-shadow:0 10px 40px rgba(0,0,0,0.35);
 }
-/* ლოგოს სტილი ნავბარში */
-.nav-logo-img {
-    height: 55px;
-    width: auto;
-    object-fit: contain;
-    transition: var(--transition);
-}
-.nav-logo-img:hover { transform: scale(1.05); }
 
 .accent-text{
     background:linear-gradient(135deg, var(--gold), #fff0a6);
@@ -176,41 +169,6 @@ body{
     to { transform: translateX(0); opacity: 1; }
 }
 
-@media (max-width: 991px) {
-    .navbar-collapse {
-        background: rgba(10, 16, 32, 0.98) !important;
-        border-radius: 20px;
-        margin-top: 15px;
-        padding: 25px !important;
-        border: 1px solid rgba(255, 204, 51, 0.2);
-    }
-    .navbar-nav {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-    }
-    .nav-link-custom {
-        width: 100% !important;
-        text-align: center;
-        padding: 12px 0 !important;
-        margin: 5px 0 !important;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .nav-link-custom::after { display: none; }
-    .ms-lg-4.mt-3.mt-lg-0 {
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 12px !important;
-        margin-top: 20px !important;
-        align-items: center !important;
-    }
-    .btn-register-gold, .btn-premium, .btn-outline-light {
-        width: 100% !important;
-        text-align: center;
-        margin: 5px 0 !important;
-    }
-}
-
 footer {
     margin-top: 120px;
     background: rgba(4, 8, 18, 0.95);
@@ -218,7 +176,24 @@ footer {
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     padding: 80px 0 30px;
 }
-.footer-logo { height: 50px; margin-bottom: 20px; object-fit: contain; }
+
+/* ფუტერის ლოგოს მომრგვალებული კონტეინერი */
+.footer-logo-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 22px; /* მომრგვალება */
+    padding: 15px;
+    display: inline-block;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2), 0 0 15px var(--gold-glow);
+    transition: var(--transition);
+}
+.footer-logo-box:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 204, 51, 0.3);
+}
+.footer-logo { height: 55px; display: block; object-fit: contain; }
+
 .social-links { display: flex; gap: 15px; margin-top: 25px; }
 .social-icon {
     width: 45px; height: 45px;
@@ -241,8 +216,8 @@ footer {
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark custom-navbar sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="/">
-            <img src="{{ url_for('static', filename='images/Delivero Swift & Secure Logo.png') }}" alt="Delivero Logo" class="nav-logo-img">
+        <a class="navbar-brand fw-bold text-white" href="/" style="letter-spacing: 1px;">
+            DELIVERO<span style="color: var(--gold);">.GE</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -297,7 +272,9 @@ footer {
     <div class="container position-relative">
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
-                <img src="{{ url_for('static', filename='images/Delivero Swift & Secure Logo.png') }}" alt="Delivero Logo" class="footer-logo">
+                <div class="footer-logo-box">
+                    <img src="{{ url_for('static', filename='images/Delivero Swift & Secure Logo.png') }}" alt="Delivero Logo" class="footer-logo">
+                </div>
                 <p class="text-white-50 pe-lg-5">პროფესიონალური და უსაფრთხო საკურიერო სერვისი მთელი საქართველოს მასშტაბით.</p>
                 <div class="social-links">
                     <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
